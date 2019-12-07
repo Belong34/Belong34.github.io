@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="本笔记为网上的一些资源整合加上自己的笔记。 用例图用例间的关系包括泛化关系，包含关系，扩展关系。用户的泛化使用空心的箭头表示,由子用户指向基用户，用户与用例的连线根据需求(带箭头的实线)，确定是从who到who. 泛化关系，相当于继承，子用例继承基用例所有行为，关系和通信关系，也就是说在任何使用基用例的地方都可以用子用例来代替。泛化关系在用例图中使用空心的箭头表示，箭头方向从子用例指向基用例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UML">
+<meta property="og:url" content="Belong34.github.io/2019/11/11/UML/index.html">
+<meta property="og:site_name" content="Renegades">
+<meta property="og:description" content="本笔记为网上的一些资源整合加上自己的笔记。 用例图用例间的关系包括泛化关系，包含关系，扩展关系。用户的泛化使用空心的箭头表示,由子用户指向基用户，用户与用例的连线根据需求(带箭头的实线)，确定是从who到who. 泛化关系，相当于继承，子用例继承基用例所有行为，关系和通信关系，也就是说在任何使用基用例的地方都可以用子用例来代替。泛化关系在用例图中使用空心的箭头表示，箭头方向从子用例指向基用例。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191111_234904_97.png">
+<meta property="og:updated_time" content="2019-12-07T15:06:28.328Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UML">
+<meta name="twitter:description" content="本笔记为网上的一些资源整合加上自己的笔记。 用例图用例间的关系包括泛化关系，包含关系，扩展关系。用户的泛化使用空心的箭头表示,由子用户指向基用户，用户与用例的连线根据需求(带箭头的实线)，确定是从who到who. 泛化关系，相当于继承，子用例继承基用例所有行为，关系和通信关系，也就是说在任何使用基用例的地方都可以用子用例来代替。泛化关系在用例图中使用空心的箭头表示，箭头方向从子用例指向基用例。">
+<meta name="twitter:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191111_234904_97.png">
+  <link rel="canonical" href="Belong34.github.io/2019/11/11/UML/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>UML | Renegades</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Renegades</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="Belong34.github.io/2019/11/11/UML/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="狗仔源">
+      <meta itemprop="description" content="VCC & ME">
+      <meta itemprop="image" content="/images/22.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renegades">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            UML
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-11 22:51:49" itemprop="dateCreated datePublished" datetime="2019-11-11T22:51:49+08:00">2019-11-11</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-07 23:06:28" itemprop="dateModified" datetime="2019-12-07T23:06:28+08:00">2019-12-07</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/课程笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">课程笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>2.5k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>2 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本笔记为网上的一些资源整合加上自己的笔记。</p>
+<h3 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h3><p>用例间的关系包括泛化关系，包含关系，扩展关系。用户的泛化使用空心的箭头表示,由子用户指向基用户，用户与用例的连线根据需求(带箭头的实线)，确定是从who到who.</p>
+<p>泛化关系，相当于继承，子用例继承基用例所有行为，关系和通信关系，也就是说在任何使用基用例的地方都可以用子用例来代替。泛化关系在用例图中使用空心的箭头表示，箭头方向从子用例指向基用例。</p>
+<a id="more"></a>
+<p>扩展(extend)： extend关系是对基用例的扩展，基用例是一个完整的用例，即使没有子用例的参与，也可以完成一个完整的功能。extend的基用例中将存在一个扩展点，只有当扩展点被激活时，子用例才会被执行。 extend关系在用例图中使用带箭头的虚线表示(在线上标注&lt;<extend>&gt;)，箭头从子用例指向基用例。</extend></p>
+<p>包含(include)： include为包含关系，当两个或多个用例中共用一组相同的动作，这时可以将这组相同的动作抽出来作为一个独立的子用例，供多个基用例所共享。因为子用例被抽出，基用例并非一个完整的用例，所以include关系中的基用例必须和子用例一起使用才够完整，子用例也必然被执行。include关系在用例图中使用带箭头的虚线表示(在线上标注&lt;<include>&gt;)，箭头从基用例指向子用例。</include></p>
+<h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p>类的图形基本表示分为3层，分别是类名，属性以及操作。类之间的关系包括关联关系(单项关联(指向被依赖的类)，双向关联)</p>
+<h4 id="泛化"><a href="#泛化" class="headerlink" title="泛化"></a>泛化</h4><p>泛化关系在也叫作继承关系，在UML中我们用带空心三角形的直线来表示，我们增加两个类，一个Student类，一个警察Policemen类，两个类均继承自Person类，指向person，</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>这里的实现关系就是类与接口的实现关系，在UML中我们用带空心三角形的虚线表示。由于Student和Policeman都是职业，学生的职业就是学习，而警察的职业为保护人民。两者都指向interface(职业)</p>
+<h4 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h4><p>依赖关系是一种很弱的关系，一般是指一个类使用另一个类，这里学生捡到钱交给警察叔叔，学生和警察叔叔就是一种依赖关系。因为学生捡到钱给警察是一种偶然的事情，交给警察后他们之间就没有关系了。我们在学生类中加入一个交钱的方法，在警察类中加入一个收钱的方法，当调用学生的交钱方法时，就调用警察的收钱方法。指向警察，箭头虚线</p>
+<h4 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h4><p>关联关系是一种比较强的关系，他们的关系是比较持久的，稳定的。比如学生从家里出来，学生和家就是一种关联关系。这种关系是比较稳定的。关联分单向关联和双向关联，如果一个类知道或者引用了另一个类，而另一个类不知道或者没有引用这个类，则这两个类是单向关联的。比如这里学生与家的关系就是单向关联的，因为每个学生都是有个家的（不考虑孤儿），但不能说每个家里都有学生。单向关联我们用带箭头的实线表示，箭头指向被引用或者被包含的类，这里也就是家这个类，实线箭头。</p>
+<h4 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h4><p>聚合关系是一种特殊的关联关系，聚合关系强调的是整体和部分的关系，其中部分可以脱离整体而存在。比如雁群和一只大雁的关系，就是聚合关系，大雁离开雁群还是可以独立存在的。再比如警察与制服的关系，制服也是警察的一部分，制服可以脱离警察而存在。在UML类图中聚合用带空心菱形的直线表示，其中菱形指向整体：</p>
+<h4 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h4><p>组合关系也是一种特殊的关联关系，它与聚合关系很像，也是强调整体与部分的关系，不同的是部分无法脱离整体存在。比如学生用手捡钱，其中手就是学生的一部分，但是手不能脱离学生而单独存在。要是手能独立存在想想就可怕。。。这里我们称学生与手为组合关系，用带实心的菱形直线表示，其中菱形指向整体：</p>
+<h3 id="ER图"><a href="#ER图" class="headerlink" title="ER图"></a>ER图</h3><p>正方形是实体,菱形是联系,椭圆是属性，连线是无向的,写好1对多还是多对一还是多对多</p>
+<h3 id="顺序图"><a href="#顺序图" class="headerlink" title="顺序图"></a>顺序图</h3><p>对象(需加下划线),消息，控制焦点（激活期），生命线</p>
+<h4 id="调用信息"><a href="#调用信息" class="headerlink" title="调用信息"></a>调用信息</h4><p>调用（procedure call）消息的发送者把控制传递给消息的接收者，然后停止活动，等待消息接收者放弃或返回控制。调用消息可以用来表示同步的意义。使用实心箭头的实线。</p>
+<h4 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h4><p>异步（asynchronous）消息的发送者通过消息把信号传递给消息的接收者，然后继续自己的活动，不等待接收者返回消息或控制。异步消息的接收者和发送者是并发工作的。使用带箭头的实线。</p>
+<h4 id="返回消息"><a href="#返回消息" class="headerlink" title="返回消息"></a>返回消息</h4><p>返回（return）消息表示前面发出的消息要返回的消息值。如果是从过程调用返回，则返回消息是隐含的，可以不用画出来。对于非过程调用，如果有返回消息，必须明确表示出来。使用带箭头的虚线。</p>
+<h4 id="反身消息"><a href="#反身消息" class="headerlink" title="反身消息"></a>反身消息</h4><p>在反身消息中，消息的发送者和接收者是同一个对象。使用带箭头的实线指向自己。</p>
+<h4 id="阻止消息"><a href="#阻止消息" class="headerlink" title="阻止消息"></a>阻止消息</h4><p>阻止消息是指消息发送者发出消息给接收者，如果接收者无法立即接收消息，则发送者放弃这个消息。使用带箭头的实线指向空白处。</p>
+<h4 id="超时消息"><a href="#超时消息" class="headerlink" title="超时消息"></a>超时消息</h4><p>超时消息是指消息发送者发出消息给接收者并按指定时间等待。如果接收者无法在指定时间内接收消息，则发送者放弃这个消息。使用带箭头的实线加上小菱形。</p>
+<h3 id="协作图"><a href="#协作图" class="headerlink" title="协作图"></a>协作图</h3><p>协作图用于描述相互合作的对象间的交互关系和链接关系。包括对象(加下划线)，链，消息，对象生命周期(对象名称之后标以{new}约束表示创建对象，标以{destroy}约束表示销毁对象)</p>
+<p>在协作图中必须使用消息序列号来描述消息的发送顺序和嵌套顺序。</p>
+<h4 id="发送顺序"><a href="#发送顺序" class="headerlink" title="发送顺序"></a>发送顺序</h4><p>消息1，消息2，消息3。消息1发送后，可以发送消息2。在发送消息2之前，消息1是否完成无关紧要。在消息2完成之前，消息1是否完成无关紧要。</p>
+<h4 id="嵌套顺序"><a href="#嵌套顺序" class="headerlink" title="嵌套顺序"></a>嵌套顺序</h4><p>消息1，消息1.1，消息1.2。消息1发送后，可以发送消息1.1。在消息1.1完成之前，消息1无法完成。</p>
+<h3 id="状态图"><a href="#状态图" class="headerlink" title="状态图"></a>状态图</h3><p>描述一个对象的生命周期内的状态及状态变迁，以及引起状态变迁的事件和对象在状态中的动作等。</p>
+<h4 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h4><p>指在对象的生命期中的某个条件或状况。可以认为“状态”对应某些变量或属性取了特定值，某个操作在运行，操作运行后的结局</p>
+<h4 id="转移"><a href="#转移" class="headerlink" title="转移"></a>转移</h4><p>是两个状态之间的一种关系<br>(1)表示在指定的事件发生后，<br>(2)在特定的警戒条件满足时，<br>(3)对象执行指定的动作，<br>(4)并从起始状态进入目标状态。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191111_234904_97.png" alt="20191111_234904_97"></p>
+<h4 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h4><p>实线代表转移，虚线代表信号。</p>
+<h3 id="活动图"><a href="#活动图" class="headerlink" title="活动图"></a>活动图</h3><p>表示的是某流程中的任务的执行，它可以表示某算法过程中语句的执行。分叉与汇合，分支与合并，对象流，泳道，发送信号，接收信号</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/09/opencv/" rel="next" title="opencv">
+                  <i class="fa fa-chevron-left"></i> opencv
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/11/22/关于python的记录/" rel="prev" title="关于python的记录">
+                  关于python的记录 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#用例图"><span class="nav-number">1.</span> <span class="nav-text">用例图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类图"><span class="nav-number">2.</span> <span class="nav-text">类图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#泛化"><span class="nav-number">2.1.</span> <span class="nav-text">泛化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现"><span class="nav-number">2.2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#依赖"><span class="nav-number">2.3.</span> <span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关联"><span class="nav-number">2.4.</span> <span class="nav-text">关联</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚合"><span class="nav-number">2.5.</span> <span class="nav-text">聚合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组合"><span class="nav-number">2.6.</span> <span class="nav-text">组合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ER图"><span class="nav-number">3.</span> <span class="nav-text">ER图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序图"><span class="nav-number">4.</span> <span class="nav-text">顺序图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调用信息"><span class="nav-number">4.1.</span> <span class="nav-text">调用信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异步消息"><span class="nav-number">4.2.</span> <span class="nav-text">异步消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回消息"><span class="nav-number">4.3.</span> <span class="nav-text">返回消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反身消息"><span class="nav-number">4.4.</span> <span class="nav-text">反身消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#阻止消息"><span class="nav-number">4.5.</span> <span class="nav-text">阻止消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#超时消息"><span class="nav-number">4.6.</span> <span class="nav-text">超时消息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协作图"><span class="nav-number">5.</span> <span class="nav-text">协作图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#发送顺序"><span class="nav-number">5.1.</span> <span class="nav-text">发送顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌套顺序"><span class="nav-number">5.2.</span> <span class="nav-text">嵌套顺序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态图"><span class="nav-number">6.</span> <span class="nav-text">状态图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#状态"><span class="nav-number">6.1.</span> <span class="nav-text">状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转移"><span class="nav-number">6.2.</span> <span class="nav-text">转移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件"><span class="nav-number">6.3.</span> <span class="nav-text">事件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#活动图"><span class="nav-number">7.</span> <span class="nav-text">活动图</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/22.png"
+      alt="狗仔源">
+  <p class="site-author-name" itemprop="name">狗仔源</p>
+  <div class="site-description" itemprop="description">VCC & ME</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:530738743@qq.com" title="E-Mail &rarr; mailto:530738743@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">狗仔源</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">23k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">21 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '3fd967d31c63d255d193',
+      clientSecret: 'b8ead67458a8526ad97a04eb9a872c28c8ec09ff',
+      repo: 'BelongComments',
+      owner: 'Belong34',
+      admin: ['Belong34'],
+      id: 'dc17b4636ce735deb2135b2792c9b417',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":0,"vOffset":20},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
