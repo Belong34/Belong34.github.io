@@ -224,7 +224,7 @@
         <h1 class="post-title" itemprop="name headline">
           
             
-            <a href="/2019/12/10/pandas数据预处理/" class="post-title-link" itemprop="url">pandas数据预处理</a>
+            <a href="/2019/12/10/pandas数据预处理/" class="post-title-link" itemprop="url">数据预处理</a>
           
         </h1>
 
@@ -239,11 +239,19 @@
                 
               
 
-              <time title="创建时间：2019-12-10 23:00:42 / 修改时间：23:47:13" itemprop="dateCreated datePublished" datetime="2019-12-10T23:00:42+08:00">2019-12-10</time>
+              <time title="创建时间：2019-12-10 23:00:42" itemprop="dateCreated datePublished" datetime="2019-12-10T23:00:42+08:00">2019-12-10</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-22 22:14:54" itemprop="dateModified" datetime="2019-12-22T22:14:54+08:00">2019-12-22</time>
+              </span>
             
           
 
@@ -256,7 +264,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>80</span>
+              <span>2.3k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -266,7 +274,7 @@
               
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
           
 
@@ -279,8 +287,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>很多时候，模型的准确率卡在某一范围内，不一定就是网络的结构问题，更多时候是数据预处理的问题。那么如何用有限的数据做到更多的价值呢？</p>
-<h3 id="数据相关性的基础上创造新的属性"><a href="#数据相关性的基础上创造新的属性" class="headerlink" title="数据相关性的基础上创造新的属性"></a>数据相关性的基础上创造新的属性</h3>
+          <p>很多时候，模型的准确率卡在某一范围内，不一定就是网络的结构问题，更多时候是数据预处理的问题。那么如何用有限的数据做到更多的价值呢？我们从泰坦尼克号问题入手,去运用一些知识解决数据预处理的问题。</p>
+<h3 id="数据预览"><a href="#数据预览" class="headerlink" title="数据预览"></a>数据预览</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">The shape of the train data is (row, column):(891, 12)</span><br><span class="line">&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;</span><br><span class="line">RangeIndex: 891 entries, 0 to 890</span><br><span class="line">Data columns (total 12 columns):</span><br><span class="line">PassengerId    891 non-null int64</span><br><span class="line">Survived       891 non-null int64</span><br><span class="line">Pclass         891 non-null int64</span><br><span class="line">Name           891 non-null object</span><br><span class="line">Sex            891 non-null object</span><br><span class="line">Age            714 non-null float64</span><br><span class="line">SibSp          891 non-null int64</span><br><span class="line">Parch          891 non-null int64</span><br><span class="line">Ticket         891 non-null object</span><br><span class="line">Fare           891 non-null float64</span><br><span class="line">Cabin          204 non-null object</span><br><span class="line">Embarked       889 non-null object</span><br><span class="line">dtypes: float64(2), int64(5), object(5)</span><br><span class="line">memory usage: 83.6+ KB</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../MyImageStore/Image/20191222_163403_40.png" alt="20191222_163403_40"></p>
+<p><img src="../../../MyImageStore/Image/20191222_163420_71.png" alt="20191222_163420_71"></p>
+<p>主要存在几个问题：缺失值，分类特征，字母，数字，文本特征，有用VS无用信息？接下来我们一一解决他们！</p>
+<h3 id="缺失值"><a href="#缺失值" class="headerlink" title="缺失值"></a>缺失值</h3><h4 id="Embarked"><a href="#Embarked" class="headerlink" title="Embarked"></a>Embarked</h4><p>首先是Embarked(登船港口),存在两个Nan，我们通过分析他们的共同属性来填写缺失的信息</p>
+<p><img src="../../../MyImageStore/Image/20191222_164253_54.png" alt="20191222_164253_54"><br>我们可以看到，他们同样是女性，Cabin，Fare，Pclass，Ticket也一样，是同样的票，这么来说，我们就去找有类似特征的童鞋就好了。这里从Pclass和Fare出发(听起来比较有相关性)</p>
+<p><img src="../../../MyImageStore/Image/20191222_164559_79.png" alt="20191222_164559_79"><br>很容易确定 Embarked就是C了</p>
+<h4 id="Cabin"><a href="#Cabin" class="headerlink" title="Cabin"></a>Cabin</h4><p>接下来是大头Cabin，竟然丢失了四分之三的信息，这时候就是抉择了，到底是drop掉他呢，还是说找到规律利用他。我们选择后者，因为这个东西实在是太有用了，船舱的位置和生存与否听起来就很相关。当然，我们不能放弃他。<br>首先，我们看得出来船舱的编号很乱，就像我们火车编号一样，这样实在是难分类，所以决定把字母后面的数字去掉，一般来说字母同样就代表着大家的位置也是差不多的。然后，我们联系下实际生活，像我们平时搭飞机也有分头等舱，经济舱这样的。那我们是不是就可以根据票价去做一些划分呢。然后就算出了平均值，根据平均值来分配船舱哈~</p>
+<h4 id="Fare"><a href="#Fare" class="headerlink" title="Fare"></a>Fare</h4><p>然后就是票价了，这个只有一个人，同Embarked，我们找关系。不难发现，我们更具阶级，船舱位置，以及性别做划分(别问我为什么不用Cabin，因为没有这位同志了。。)</p>
+<h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><p>然后是年龄，这个也丢了好多信息。通常来说，可以用均值，中位数，去填，但是这样子就缺失了很多信息，我们要相信自己能找到蛛丝马迹。好吧，说实话有点难找。但是，在这块数字信息上的处理有个更常用的做法，随机森林。就是他啦。</p>
+<h3 id="分析分析分析！"><a href="#分析分析分析！" class="headerlink" title="分析分析分析！"></a>分析分析分析！</h3><p>这个是很重要的一点，我们要发挥自己的脑洞，找到特征与特征的一些蛛丝马迹。甚至能看到，当时船上的一些黑暗。。。哦那个过seaborn，maplotlib画图，我们可以分析出很多东西，例如票价可能和阶级有关，头等舱，女性，儿童都比较容易生还，票价低于100的大多没能生还，也存在着票价异常高的存在(删除or保留？),有配偶的容易生还，大家庭的不容易生还。</p>
+<h3 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h3><p>有了一些先验知识，接下来，我们就带着这些先验知识以及疑问去做统计。这里存在几个名词</p>
+<h4 id="相关矩阵"><a href="#相关矩阵" class="headerlink" title="相关矩阵"></a>相关矩阵</h4><p>相关矩阵表明了特征与特征之间的关系，往往这些相关性能带给我们一些灵感<br><img src="../../../MyImageStore/Image/20191222_170953_94.png" alt="20191222_170953_94"></p>
+<h4 id="统计检验"><a href="#统计检验" class="headerlink" title="统计检验"></a>统计检验</h4><p>统计检验亦称“假设检验”。根据抽样结果，在一定可靠性程度上对一个或多个总体分布的原假设作出拒绝还是不拒绝（予以接受）结论的程序。决定常取决于样本统计量的数值与所假设的总体参数是否有显著差异。这时称差异显著性检验。检验的推理逻辑为具有概率性质的反证法。例如，在参数假设检验中，当对总体分布的参数作出原假设 H0 后，先承认总体与原假设相同， 然后根据样本计算一个统计量，并求出该统计量的分布，再给定一个小概率（一般为 0.05，0.01 等，视情况而定），确定拒绝原假设 H0 的区域（拒绝域）。</p>
+<p>大白话就是，我们将我们的想法提出来，然后做假设检验，去判断我们的想法正不正确。例如生还率和性别有着很大关系。</p>
+<h3 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h3><p>两个方向：删掉没意义的，创造有意义的</p>
+<h4 id="姓名长度"><a href="#姓名长度" class="headerlink" title="姓名长度"></a>姓名长度</h4><p>name是文本，直接用的话很难分类。所以我们就根据长度做划分。</p>
+<h4 id="称呼词"><a href="#称呼词" class="headerlink" title="称呼词"></a>称呼词</h4><p>Mrs，Miss，Dr…..称呼词，可以映射出来这个人是不是婚姻状况，性别，知识水平，职业等等等等。这里简单起见，因为我们之前已经做过了一个成功的性别的假设检验，我们就分为男性，女性，其他</p>
+<h4 id="家庭人数"><a href="#家庭人数" class="headerlink" title="家庭人数"></a>家庭人数</h4><p>把父母/子女/兄弟姐妹/配偶一起计算进来做个家庭人数的划分，因为上面已经看出了家庭与生还率的相关性</p>
+<h4 id="独自一人？"><a href="#独自一人？" class="headerlink" title="独自一人？"></a>独自一人？</h4><p>这个不用多说</p>
+<h4 id="票号"><a href="#票号" class="headerlink" title="票号"></a>票号</h4><p>票号，每个人都不一样难以做分类以及管理，且看起来好像没太大关系，drop掉</p>
+<h4 id="家庭票"><a href="#家庭票" class="headerlink" title="家庭票"></a>家庭票</h4><p>在统计阶段存在的那个很贵的票可以分析出来是类似家庭票的东西， 所以我们把票价处于家庭人数求出单独的票价</p>
+<h4 id="票价"><a href="#票价" class="headerlink" title="票价"></a>票价</h4><p>票价分桶，方便分类管理</p>
+<h4 id="id"><a href="#id" class="headerlink" title="id"></a>id</h4><p>没啥关系删掉</p>
+<h4 id="年龄"><a href="#年龄" class="headerlink" title="年龄"></a>年龄</h4><p>年龄分桶，方便分类管理</p>
+<h3 id="在所有搞定之后"><a href="#在所有搞定之后" class="headerlink" title="在所有搞定之后"></a>在所有搞定之后</h3><p>我们就把分析完的没有利用价值的变量drop掉，然后生成onehot编码，归一化，划分测试验证训练集，就可以开始我们的Model之旅啦。</p>
+
         
       
     </div>
@@ -1511,6 +1546,15 @@
         </a>
       </div>
     
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
   </nav>
 </div>
   <div class="links-of-author motion-element">
@@ -1554,12 +1598,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">24k</span>
+    <span title="站点总字数">26k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">22 分钟</span>
+    <span title="站点阅读时长">24 分钟</span>
 </div>
 
         
