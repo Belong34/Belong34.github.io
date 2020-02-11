@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Task 1训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。 然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。 最后，当我们通过以上两部确定了这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习14天笔记">
+<meta property="og:url" content="Belong34.github.io/2020/02/11/深度学习14天笔记/index.html">
+<meta property="og:site_name" content="Renegades">
+<meta property="og:description" content="Task 1训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。 然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。 最后，当我们通过以上两部确定了这">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png">
+<meta property="og:updated_time" content="2020-02-11T15:37:04.470Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习14天笔记">
+<meta name="twitter:description" content="Task 1训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。 然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。 最后，当我们通过以上两部确定了这">
+<meta name="twitter:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png">
+  <link rel="canonical" href="Belong34.github.io/2020/02/11/深度学习14天笔记/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>深度学习14天笔记 | Renegades</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Renegades</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="Belong34.github.io/2020/02/11/深度学习14天笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="狗仔源">
+      <meta itemprop="description" content="VCC & ME">
+      <meta itemprop="image" content="/images/22.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renegades">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            深度学习14天笔记
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-11 15:39:12 / 修改时间：23:37:04" itemprop="dateCreated datePublished" datetime="2020-02-11T15:39:12+08:00">2020-02-11</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>3.3k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>3 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Task-1"><a href="#Task-1" class="headerlink" title="Task 1"></a>Task 1</h1><h2 id="训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><a href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN" class="headerlink" title="训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)"></a>训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</h2><p>假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。</p>
+<p>然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。</p>
+<p>最后，当我们通过以上两部确定了这个模型的网络结构之后，我们则需要利用测试集来检验我们的模型怎么样。 如果结果不怎么样，通常来说可能是之前的模型选择的不怎么样(尽管它已经是各类超参数选择下的最好的一个了)。</p>
+<p>几点经验：</p>
+<ul>
+<li>关于比例：通常来说是6：3：3，主要还是需要视情况而定，这方面的研究也有很多，如果你想要知道我们在设置比例的时候应当参考那些东西，可以去看Isabelle Guyon的这篇论文：A scaling law for the validation-set training-set size ratio 。他的个人主页（<a href="http://www.clopinet.com/isabelle/）里也展示了他对于这个问题的研究。" target="_blank" rel="noopener">http://www.clopinet.com/isabelle/）里也展示了他对于这个问题的研究。</a></li>
+<li>关于数据：当数据量过少的时候，可以从几个角度出发：数据增强，数据重合。这方面的研究就更多了，各种交叉方法，感兴趣的话可以去看Filzmoser这一篇文章Repeated double cross validation</li>
+<li>关于预处理：当你进行了数据预处理之后，如果是对训练集做了预处理，再验证集和测试集上的处理也必须是同训练集的预处理相同。</li>
+</ul>
+<h2 id="数值解-Vs-解析解"><a href="#数值解-Vs-解析解" class="headerlink" title="数值解 Vs 解析解"></a>数值解 Vs 解析解</h2><p>两者求解方法不同，前者是通过一些优化算法迭代求解，后者是通过一些公式表示。但是实际上，深度学习模型一是难以通过公式表示，而是表示出来的公式很复杂，例如求解的公式很长，且有很多求导啊，乘法这些耗费计算资源。如此比较，从计算时间，计算资源，前者更适合这个领域，当然其得到的结果的偏差也会受到一些因素影响(超参数)。</p>
+<p>数值解是在特定条件下通过近似计算得出来的一个数值，而解析解为该函数的解析式。数值解就是用数值方法求出解，给出一系列对应的自变量和解。</p>
+<h2 id="pytorch学习"><a href="#pytorch学习" class="headerlink" title="pytorch学习"></a>pytorch学习</h2><h3 id="data"><a href="#data" class="headerlink" title=".data"></a>.data</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param.data -= lr * param.grad / batch_size # use .data to operate param without gradient track</span><br></pre></td></tr></table></figure>
+
+<p>在定义优化函数的时候，需要加上.data，理由是带有自动求导属性的变量(requires_grad)不能进行赋值操作。</p>
+<h3 id="pytorch自动求导"><a href="#pytorch自动求导" class="headerlink" title="pytorch自动求导"></a>pytorch自动求导</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">w = torch.tensor(np.random.normal(0, 0.01, (num_inputs, 1)), dtype=torch.float32)</span><br><span class="line">b = torch.zeros(1, dtype=torch.float32)   # 值得注意的是自动求导针对的tensor属性需是浮点型</span><br><span class="line">w.requires_grad_(requires_grad=True)     # requires_grad 代表自动求导的属性</span><br><span class="line">b.requires_grad_(requires_grad=True)</span><br></pre></td></tr></table></figure>
+
+<p>但是，有时候我们可能会有多个输出值，比如loss=[loss1,loss2,loss3]，那么我们可以让loss的各个分量分别对x求导，这个时候就采用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss.backward(torch.tensor([[1.0,1.0,1.0,1.0]]))</span><br></pre></td></tr></table></figure>
+
+<p>如果你想让不同的分量有不同的权重，那么就赋予gradients不一样的值即可，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss.backward(torch.tensor([[0.1,1.0,10.0,0.001]]))</span><br></pre></td></tr></table></figure>
+
+<p>warning：</p>
+<ul>
+<li>PyTorch里面，求导是调用.backward()方法。直接调用backward()方法，会计算对计算图叶节点的导数。</li>
+<li>求导，只能是【标量】对标量，或者【标量】对向量/矩阵求导！</li>
+<li>.backward()方法是对将所有影响loss的tensor都求了次梯度,如果不想全部tensor都求梯度，可以通过requires_grad属性进行操作排除子图，这个属性的运算相当于或运算</li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png" alt="20200211_223033_97"></p>
+<p>详情：<a href="https://www.jianshu.com/p/a105858567df" target="_blank" rel="noopener">https://www.jianshu.com/p/a105858567df</a></p>
+<h3 id="DataLoader"><a href="#DataLoader" class="headerlink" title="DataLoader"></a>DataLoader</h3><p>读取数据集的一个对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">dataset(Dataset): 传入的数据集</span><br><span class="line">batch_size(int, optional): 每个batch有多少个样本</span><br><span class="line">shuffle(bool, optional): 在每个epoch开始的时候，对数据进行重新排序</span><br><span class="line">sampler(Sampler, optional): 自定义从数据集中取样本的策略，如果指定这个参数，那么shuffle必须为False</span><br><span class="line">batch_sampler(Sampler, optional): 与sampler类似，但是一次只返回一个batch的indices（索引），需要注意的是，一旦指定了这个参数，那么batch_size,shuffle,sampler,drop_last就不能再制定了（互斥——Mutually exclusive）</span><br><span class="line">num_workers (int, optional): 这个参数决定了有几个进程来处理data loading。0意味着所有的数据都会被load进主进程。（默认为0）</span><br><span class="line">collate_fn (callable, optional): 将一个list的sample组成一个mini-batch的函数</span><br><span class="line">pin_memory (bool, optional)： 如果设置为True，那么data loader将会在返回它们之前，将tensors拷贝到CUDA中的固定内存（CUDA pinned memory）中.</span><br><span class="line"></span><br><span class="line">drop_last (bool, optional): 如果设置为True：这个是对最后的未完成的batch来说的，比如你的batch_size设置为64，而一个epoch只有100个样本，那么训练的时候后面的36个就被扔掉了…</span><br><span class="line">如果为False（默认），那么会继续正常执行，只是最后的batch_size会小一点。</span><br><span class="line"></span><br><span class="line">timeout(numeric, optional): 如果是正数，表明等待从worker进程中收集一个batch等待的时间，若超出设定的时间还没有收集到，那就不收集这个内容了。这个numeric应总是大于等于0。默认为0</span><br><span class="line">worker_init_fn (callable, optional): 每个worker初始化函数 If not None, this will be called on each</span><br><span class="line">worker subprocess with the worker id (an int in [0, num_workers - 1]) as</span><br><span class="line">input, after seeding and before data loading. (default: None)</span><br></pre></td></tr></table></figure>
+
+<p>详情：<a href="https://www.cnblogs.com/ranjiewen/p/10128046.html" target="_blank" rel="noopener">https://www.cnblogs.com/ranjiewen/p/10128046.html</a></p>
+<h3 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h3><p>遵循以下情况之一</p>
+<ul>
+<li><p>数组维度不同，后缘维度的轴长相符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">arr1 = np.array([[0, 0, 0],[1, 1, 1],[2, 2, 2], [3, 3, 3]])  #arr1.shape = (4,3)</span><br><span class="line">arr2 = np.array([1, 2, 3])    #arr2.shape = (3,)</span><br><span class="line">arr_sum = arr1 + arr2</span><br><span class="line">print(arr_sum)</span><br><span class="line"></span><br><span class="line">输入结果如下:</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">[[1 2 3]</span><br><span class="line"> [2 3 4]</span><br><span class="line">[3 4 5]</span><br><span class="line">[4 5 6]]</span><br><span class="line">&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组维度相同，其中有个轴为1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">arr1 = np.array([[0, 0, 0],[1, 1, 1],[2, 2, 2], [3, 3, 3]])  #arr1.shape = (4,3)</span><br><span class="line">arr2 = np.array([[1],[2],[3],[4]])    #arr2.shape = (4, 1)</span><br><span class="line"></span><br><span class="line">arr_sum = arr1 + arr2</span><br><span class="line">print(arr_sum)</span><br><span class="line"></span><br><span class="line">输出结果如下：</span><br><span class="line">[[1 1 1]</span><br><span class="line"> [3 3 3]</span><br><span class="line"> [5 5 5]</span><br><span class="line"> [7 7 7]]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/12/10/pandas数据预处理/" rel="next" title="数据预处理">
+                  <i class="fa fa-chevron-left"></i> 数据预处理
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-1"><span class="nav-number">1.</span> <span class="nav-text">Task 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><span class="nav-number">1.1.</span> <span class="nav-text">训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数值解-Vs-解析解"><span class="nav-number">1.2.</span> <span class="nav-text">数值解 Vs 解析解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch学习"><span class="nav-number">1.3.</span> <span class="nav-text">pytorch学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data"><span class="nav-number">1.3.1.</span> <span class="nav-text">.data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pytorch自动求导"><span class="nav-number">1.3.2.</span> <span class="nav-text">pytorch自动求导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataLoader"><span class="nav-number">1.3.3.</span> <span class="nav-text">DataLoader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广播机制"><span class="nav-number">1.3.4.</span> <span class="nav-text">广播机制</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/22.png"
+      alt="狗仔源">
+  <p class="site-author-name" itemprop="name">狗仔源</p>
+  <div class="site-description" itemprop="description">VCC & ME</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:530738743@qq.com" title="E-Mail &rarr; mailto:530738743@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">狗仔源</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">29k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">27 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '3fd967d31c63d255d193',
+      clientSecret: 'b8ead67458a8526ad97a04eb9a872c28c8ec09ff',
+      repo: 'BelongComments',
+      owner: 'Belong34',
+      admin: ['Belong34'],
+      id: 'd34cfcbe3b484b042402020dcdd2872b',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":0,"vOffset":20},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
