@@ -55,18 +55,18 @@
   };
 </script>
 
-  <meta name="description" content="Task 1训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。 然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。 最后，当我们通过以上两部确定了这">
+  <meta name="description" content="此为深度学习14天课程的笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习14天笔记">
 <meta property="og:url" content="Belong34.github.io/2020/02/11/深度学习14天笔记/index.html">
 <meta property="og:site_name" content="Renegades">
-<meta property="og:description" content="Task 1训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。 然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。 最后，当我们通过以上两部确定了这">
+<meta property="og:description" content="此为深度学习14天课程的笔记">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png">
-<meta property="og:updated_time" content="2020-02-11T15:37:04.470Z">
+<meta property="og:updated_time" content="2020-02-11T15:44:19.247Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习14天笔记">
-<meta name="twitter:description" content="Task 1训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。 然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。 最后，当我们通过以上两部确定了这">
+<meta name="twitter:description" content="此为深度学习14天课程的笔记">
 <meta name="twitter:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png">
   <link rel="canonical" href="Belong34.github.io/2020/02/11/深度学习14天笔记/">
 
@@ -243,7 +243,7 @@
                 
               
 
-              <time title="创建时间：2020-02-11 15:39:12 / 修改时间：23:37:04" itemprop="dateCreated datePublished" datetime="2020-02-11T15:39:12+08:00">2020-02-11</time>
+              <time title="创建时间：2020-02-11 15:39:12 / 修改时间：23:44:19" itemprop="dateCreated datePublished" datetime="2020-02-11T15:39:12+08:00">2020-02-11</time>
             </span>
           
             
@@ -283,12 +283,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Task-1"><a href="#Task-1" class="headerlink" title="Task 1"></a>Task 1</h1><h2 id="训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><a href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN" class="headerlink" title="训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)"></a>训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</h2><p>假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。</p>
+        <p>此为深度学习14天课程的笔记</p>
+<a id="more"></a>
+<h1 id="Task-1"><a href="#Task-1" class="headerlink" title="Task 1"></a>Task 1</h1><h2 id="训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><a href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN" class="headerlink" title="训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)"></a>训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</h2><p>假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。</p>
 <p>然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。</p>
 <p>最后，当我们通过以上两部确定了这个模型的网络结构之后，我们则需要利用测试集来检验我们的模型怎么样。 如果结果不怎么样，通常来说可能是之前的模型选择的不怎么样(尽管它已经是各类超参数选择下的最好的一个了)。</p>
 <p>几点经验：</p>
 <ul>
-<li>关于比例：通常来说是6：3：3，主要还是需要视情况而定，这方面的研究也有很多，如果你想要知道我们在设置比例的时候应当参考那些东西，可以去看Isabelle Guyon的这篇论文：A scaling law for the validation-set training-set size ratio 。他的个人主页（<a href="http://www.clopinet.com/isabelle/）里也展示了他对于这个问题的研究。" target="_blank" rel="noopener">http://www.clopinet.com/isabelle/）里也展示了他对于这个问题的研究。</a></li>
+<li>关于比例：通常来说是6：2：2，主要还是需要视情况而定，这方面的研究也有很多，如果你想要知道我们在设置比例的时候应当参考那些东西，可以去看Isabelle Guyon的这篇论文：A scaling law for the validation-set training-set size ratio 。他的个人主页（<a href="http://www.clopinet.com/isabelle/）里也展示了他对于这个问题的研究。" target="_blank" rel="noopener">http://www.clopinet.com/isabelle/）里也展示了他对于这个问题的研究。</a></li>
 <li>关于数据：当数据量过少的时候，可以从几个角度出发：数据增强，数据重合。这方面的研究就更多了，各种交叉方法，感兴趣的话可以去看Filzmoser这一篇文章Repeated double cross validation</li>
 <li>关于预处理：当你进行了数据预处理之后，如果是对训练集做了预处理，再验证集和测试集上的处理也必须是同训练集的预处理相同。</li>
 </ul>
