@@ -63,7 +63,14 @@
 <meta property="og:description" content="此为深度学习14天课程的笔记">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png">
-<meta property="og:updated_time" content="2020-02-11T15:44:19.247Z">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164700_28.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164737_90.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171923_70.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172003_57.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172338_51.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171817_87.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171802_30.png">
+<meta property="og:updated_time" content="2020-02-12T09:54:56.986Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习14天笔记">
 <meta name="twitter:description" content="此为深度学习14天课程的笔记">
@@ -243,11 +250,19 @@
                 
               
 
-              <time title="创建时间：2020-02-11 15:39:12 / 修改时间：23:44:19" itemprop="dateCreated datePublished" datetime="2020-02-11T15:39:12+08:00">2020-02-11</time>
+              <time title="创建时间：2020-02-11 15:39:12" itemprop="dateCreated datePublished" datetime="2020-02-11T15:39:12+08:00">2020-02-11</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-12 17:54:56" itemprop="dateModified" datetime="2020-02-12T17:54:56+08:00">2020-02-12</time>
+              </span>
             
           
 
@@ -260,7 +275,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>3.3k</span>
+              <span>4k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -270,7 +285,7 @@
               
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               
-              <span>3 分钟</span>
+              <span>4 分钟</span>
             </span>
           
 
@@ -285,7 +300,8 @@
       
         <p>此为深度学习14天课程的笔记</p>
 <a id="more"></a>
-<h1 id="Task-1"><a href="#Task-1" class="headerlink" title="Task 1"></a>Task 1</h1><h2 id="训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><a href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN" class="headerlink" title="训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)"></a>训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</h2><p>假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。</p>
+<h1 id="Task-1-线性回归"><a href="#Task-1-线性回归" class="headerlink" title="Task 1 线性回归"></a>Task 1 线性回归</h1><p>线性回归-&gt;连续值的预测</p>
+<h2 id="训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><a href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN" class="headerlink" title="训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)"></a>训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</h2><p>假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。</p>
 <p>然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。</p>
 <p>最后，当我们通过以上两部确定了这个模型的网络结构之后，我们则需要利用测试集来检验我们的模型怎么样。 如果结果不怎么样，通常来说可能是之前的模型选择的不怎么样(尽管它已经是各类超参数选择下的最好的一个了)。</p>
 <p>几点经验：</p>
@@ -328,6 +344,36 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">arr1 = np.array([[0, 0, 0],[1, 1, 1],[2, 2, 2], [3, 3, 3]])  #arr1.shape = (4,3)</span><br><span class="line">arr2 = np.array([[1],[2],[3],[4]])    #arr2.shape = (4, 1)</span><br><span class="line"></span><br><span class="line">arr_sum = arr1 + arr2</span><br><span class="line">print(arr_sum)</span><br><span class="line"></span><br><span class="line">输出结果如下：</span><br><span class="line">[[1 1 1]</span><br><span class="line"> [3 3 3]</span><br><span class="line"> [5 5 5]</span><br><span class="line"> [7 7 7]]</span><br></pre></td></tr></table></figure>
 
 </li>
+</ul>
+<h1 id="Task-2-softmax"><a href="#Task-2-softmax" class="headerlink" title="Task 2 softmax"></a>Task 2 softmax</h1><p>离散值的预测。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164700_28.png" alt="20200212_164700_28"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164737_90.png" alt="20200212_164737_90"></p>
+<h1 id="为啥使用指数函数？"><a href="#为啥使用指数函数？" class="headerlink" title="为啥使用指数函数？"></a>为啥使用指数函数？</h1><p>取决于误差存在所服从的分布，softmax回归是在误差服从多项式分布的基础上推导而来的。</p>
+<p>softmax公式的得出方法大概解释可以解释为：<br>首先假设样本与理论标准函数的误差（类似于线性回归那一章中生成数据时叠加上的高斯误差）服从正态分布（高斯分布），并且不同样本之间独立同分布，<br>通过贝叶斯公式计算各个分类的概率，将高斯分布的公式带入公式之后化简得到。<br>在一些地方softmax函数又被称为归一化指数（normalized exponential）</p>
+<div style="text-align: right"> By Lee  </div>
+
+<p>在实际使用下，还会利用softmax的常数不变性，减去一一个常数，以防止指数爆炸,保证数值稳定性。</p>
+<h1 id="交叉熵-Vs-均方误差"><a href="#交叉熵-Vs-均方误差" class="headerlink" title="交叉熵 Vs 均方误差"></a>交叉熵 Vs 均方误差</h1><p>均方误差：<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171923_70.png" alt="20200212_171923_70"></p>
+<p>交叉熵：<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172003_57.png" alt="20200212_172003_57"></p>
+<ul>
+<li><p>在分类问题的情况下，同时处理one-hot编码后的标签，交叉熵只关注正确标签的概率</p>
+</li>
+<li><p>均方误差在权值更新的时候，与激活函数的梯度有关，如果梯度比较平缓的时候，梯度更新的速度会很慢，交叉熵与预测值和实际值误差有关，差距越大，速度越快。因此交叉熵的计算效率也比较高。</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172338_51.png" alt="20200212_172338_51"></p>
+<ul>
+<li>均方误差存在局部最优解，交叉熵效果较好<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171817_87.png" alt="20200212_171817_87"></li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171802_30.png" alt="20200212_171802_30"></p>
+<p>Reference：<a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/35709485</a></p>
+<p><a href="https://www.cnblogs.com/aijianiula/p/9651879.html" target="_blank" rel="noopener">https://www.cnblogs.com/aijianiula/p/9651879.html</a></p>
+<h1 id="pytorch-学习"><a href="#pytorch-学习" class="headerlink" title="pytorch 学习"></a>pytorch 学习</h1><h2 id="torchvision"><a href="#torchvision" class="headerlink" title="torchvision"></a>torchvision</h2><p>服务于计算机视觉模型的包，由以下几部分构成</p>
+<ul>
+<li>datasets：加载数据集的函数以及一些数据集的接口</li>
+<li>models：常用的模型结构(包括预训练模型)</li>
+<li>transforms：常用的图片变换</li>
+<li>utils：其他有用的方法</li>
 </ul>
 
     </div>
@@ -402,7 +448,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-1"><span class="nav-number">1.</span> <span class="nav-text">Task 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><span class="nav-number">1.1.</span> <span class="nav-text">训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数值解-Vs-解析解"><span class="nav-number">1.2.</span> <span class="nav-text">数值解 Vs 解析解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch学习"><span class="nav-number">1.3.</span> <span class="nav-text">pytorch学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data"><span class="nav-number">1.3.1.</span> <span class="nav-text">.data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pytorch自动求导"><span class="nav-number">1.3.2.</span> <span class="nav-text">pytorch自动求导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataLoader"><span class="nav-number">1.3.3.</span> <span class="nav-text">DataLoader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广播机制"><span class="nav-number">1.3.4.</span> <span class="nav-text">广播机制</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-1-线性回归"><span class="nav-number">1.</span> <span class="nav-text">Task 1 线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><span class="nav-number">1.1.</span> <span class="nav-text">训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数值解-Vs-解析解"><span class="nav-number">1.2.</span> <span class="nav-text">数值解 Vs 解析解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch学习"><span class="nav-number">1.3.</span> <span class="nav-text">pytorch学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data"><span class="nav-number">1.3.1.</span> <span class="nav-text">.data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pytorch自动求导"><span class="nav-number">1.3.2.</span> <span class="nav-text">pytorch自动求导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataLoader"><span class="nav-number">1.3.3.</span> <span class="nav-text">DataLoader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广播机制"><span class="nav-number">1.3.4.</span> <span class="nav-text">广播机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-2-softmax"><span class="nav-number">2.</span> <span class="nav-text">Task 2 softmax</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为啥使用指数函数？"><span class="nav-number">3.</span> <span class="nav-text">为啥使用指数函数？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#交叉熵-Vs-均方误差"><span class="nav-number">4.</span> <span class="nav-text">交叉熵 Vs 均方误差</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pytorch-学习"><span class="nav-number">5.</span> <span class="nav-text">pytorch 学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#torchvision"><span class="nav-number">5.1.</span> <span class="nav-text">torchvision</span></a></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -491,7 +537,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">29k</span>
+    <span title="站点总字数">30k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
