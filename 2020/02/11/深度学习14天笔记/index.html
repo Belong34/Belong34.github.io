@@ -75,7 +75,7 @@
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175008_55.png">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175040_17.png">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_181810_75.png">
-<meta property="og:updated_time" content="2020-02-13T10:23:35.233Z">
+<meta property="og:updated_time" content="2020-02-13T10:32:57.176Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习14天笔记">
 <meta name="twitter:description" content="此为深度学习14天课程的笔记">
@@ -266,7 +266,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-13 18:23:35" itemprop="dateModified" datetime="2020-02-13T18:23:35+08:00">2020-02-13</time>
+                <time title="修改时间：2020-02-13 18:32:57" itemprop="dateModified" datetime="2020-02-13T18:32:57+08:00">2020-02-13</time>
               </span>
             
           
@@ -387,12 +387,7 @@
 <ul>
 <li>读入文本(这里需要对文本做一些基本处理，例如：去掉每行首尾的一些空格，一些奇怪的字符等等)</li>
 <li>分词(分词的级别也要视情况而定词语or单词？)<br>这里也有一些继承好的分词方案：spaCy和NLTK</li>
-<li>建立词典，将每一个词映射到一个唯一的索引(index)</li>
-</ul>
-<p>去重</p>
-<p>受词频限制，有些出现次数比较少的可以忽略</p>
-<p>根据需要保留一些特殊的标记，如句首，句尾，不认识的词，还有补全词。</p>
-<ul>
+<li>建立词典，将每一个词映射到一个唯一的索引(index)<br>去重<br>受词频限制，有些出现次数比较少的可以忽略<br>根据需要保留一些特殊的标记，如句首，句尾，不认识的词，还有补全词。</li>
 <li>将文本从词的序列转换为索引的序列，方便输入模型</li>
 </ul>
 <h3 id="re正则表达式库"><a href="#re正则表达式库" class="headerlink" title="re正则表达式库"></a>re正则表达式库</h3><p>这里只是点出几个常用函数，具体学习等有需要的时候再做补充</p>
@@ -411,11 +406,8 @@
 <p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175040_17.png" alt="20200213_175040_17"></p>
 <h4 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h4><ul>
 <li>参数空间过大 ： 参数的多少时随着n的增大呈指数倍增长的</li>
-<li>数据稀疏 ：</li>
+<li>数据稀疏 ：<br>齐夫定律(也就是说随着词频表的排名下降，词频的减少是按倍数减少的)<br>大部分词频都很小，往往连续的三四个字连成的词出现的词频也很小，可以用bigram、trigram等词袋模型解决<br>而且词频最高的是停滞词(and，or)可以用tf-idf优化</li>
 </ul>
-<p>齐夫定律(也就是说随着词频表的排名下降，词频的减少是按倍数减少的)</p>
-<p>大部分词频都很小，往往连续的三四个字连成的词出现的词频也很小，可以用bigram、trigram等词袋模型解决</p>
-<p>而且词频最高的是停滞词(and，or)可以用tf-idf优化</p>
 <h3 id="序列模型的采样"><a href="#序列模型的采样" class="headerlink" title="序列模型的采样"></a>序列模型的采样</h3><p>如果将所有的样本都拿来使用，这些样本就会有大量的重合，降低计算的效率，所以采样方法很重要，以下两种采样方式(引用小罗同学的图图)：</p>
 <p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_181810_75.png" alt="20200213_181810_75"></p>
 
