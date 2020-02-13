@@ -70,7 +70,12 @@
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172338_51.png">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171817_87.png">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171802_30.png">
-<meta property="og:updated_time" content="2020-02-12T09:54:56.986Z">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_130921_48.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_174800_90.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175008_55.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175040_17.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_181810_75.png">
+<meta property="og:updated_time" content="2020-02-13T10:23:35.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习14天笔记">
 <meta name="twitter:description" content="此为深度学习14天课程的笔记">
@@ -261,7 +266,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-12 17:54:56" itemprop="dateModified" datetime="2020-02-12T17:54:56+08:00">2020-02-12</time>
+                <time title="修改时间：2020-02-13 18:23:35" itemprop="dateModified" datetime="2020-02-13T18:23:35+08:00">2020-02-13</time>
               </span>
             
           
@@ -275,7 +280,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>4k</span>
+              <span>5.1k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -285,7 +290,7 @@
               
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               
-              <span>4 分钟</span>
+              <span>5 分钟</span>
             </span>
           
 
@@ -300,8 +305,8 @@
       
         <p>此为深度学习14天课程的笔记</p>
 <a id="more"></a>
-<h1 id="Task-1-线性回归"><a href="#Task-1-线性回归" class="headerlink" title="Task 1 线性回归"></a>Task 1 线性回归</h1><p>线性回归-&gt;连续值的预测</p>
-<h2 id="训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><a href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN" class="headerlink" title="训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)"></a>训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</h2><p>假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。</p>
+<h1 id="Task-1"><a href="#Task-1" class="headerlink" title="Task 1"></a>Task 1</h1><h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>线性回归-&gt;连续值的预测</p>
+<h3 id="训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><a href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN" class="headerlink" title="训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)"></a>训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</h3><p>假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。</p>
 <p>然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。</p>
 <p>最后，当我们通过以上两部确定了这个模型的网络结构之后，我们则需要利用测试集来检验我们的模型怎么样。 如果结果不怎么样，通常来说可能是之前的模型选择的不怎么样(尽管它已经是各类超参数选择下的最好的一个了)。</p>
 <p>几点经验：</p>
@@ -310,12 +315,12 @@
 <li>关于数据：当数据量过少的时候，可以从几个角度出发：数据增强，数据重合。这方面的研究就更多了，各种交叉方法，感兴趣的话可以去看Filzmoser这一篇文章Repeated double cross validation</li>
 <li>关于预处理：当你进行了数据预处理之后，如果是对训练集做了预处理，再验证集和测试集上的处理也必须是同训练集的预处理相同。</li>
 </ul>
-<h2 id="数值解-Vs-解析解"><a href="#数值解-Vs-解析解" class="headerlink" title="数值解 Vs 解析解"></a>数值解 Vs 解析解</h2><p>两者求解方法不同，前者是通过一些优化算法迭代求解，后者是通过一些公式表示。但是实际上，深度学习模型一是难以通过公式表示，而是表示出来的公式很复杂，例如求解的公式很长，且有很多求导啊，乘法这些耗费计算资源。如此比较，从计算时间，计算资源，前者更适合这个领域，当然其得到的结果的偏差也会受到一些因素影响(超参数)。</p>
+<h3 id="数值解-Vs-解析解"><a href="#数值解-Vs-解析解" class="headerlink" title="数值解 Vs 解析解"></a>数值解 Vs 解析解</h3><p>两者求解方法不同，前者是通过一些优化算法迭代求解，后者是通过一些公式表示。但是实际上，深度学习模型一是难以通过公式表示，而是表示出来的公式很复杂，例如求解的公式很长，且有很多求导啊，乘法这些耗费计算资源。如此比较，从计算时间，计算资源，前者更适合这个领域，当然其得到的结果的偏差也会受到一些因素影响(超参数)。</p>
 <p>数值解是在特定条件下通过近似计算得出来的一个数值，而解析解为该函数的解析式。数值解就是用数值方法求出解，给出一系列对应的自变量和解。</p>
-<h2 id="pytorch学习"><a href="#pytorch学习" class="headerlink" title="pytorch学习"></a>pytorch学习</h2><h3 id="data"><a href="#data" class="headerlink" title=".data"></a>.data</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param.data -= lr * param.grad / batch_size # use .data to operate param without gradient track</span><br></pre></td></tr></table></figure>
+<h3 id="pytorch学习"><a href="#pytorch学习" class="headerlink" title="pytorch学习"></a>pytorch学习</h3><h4 id="data"><a href="#data" class="headerlink" title=".data"></a>.data</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param.data -= lr * param.grad / batch_size # use .data to operate param without gradient track</span><br></pre></td></tr></table></figure>
 
 <p>在定义优化函数的时候，需要加上.data，理由是带有自动求导属性的变量(requires_grad)不能进行赋值操作。</p>
-<h3 id="pytorch自动求导"><a href="#pytorch自动求导" class="headerlink" title="pytorch自动求导"></a>pytorch自动求导</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">w = torch.tensor(np.random.normal(0, 0.01, (num_inputs, 1)), dtype=torch.float32)</span><br><span class="line">b = torch.zeros(1, dtype=torch.float32)   # 值得注意的是自动求导针对的tensor属性需是浮点型</span><br><span class="line">w.requires_grad_(requires_grad=True)     # requires_grad 代表自动求导的属性</span><br><span class="line">b.requires_grad_(requires_grad=True)</span><br></pre></td></tr></table></figure>
+<h4 id="pytorch自动求导"><a href="#pytorch自动求导" class="headerlink" title="pytorch自动求导"></a>pytorch自动求导</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">w = torch.tensor(np.random.normal(0, 0.01, (num_inputs, 1)), dtype=torch.float32)</span><br><span class="line">b = torch.zeros(1, dtype=torch.float32)   # 值得注意的是自动求导针对的tensor属性需是浮点型</span><br><span class="line">w.requires_grad_(requires_grad=True)     # requires_grad 代表自动求导的属性</span><br><span class="line">b.requires_grad_(requires_grad=True)</span><br></pre></td></tr></table></figure>
 
 <p>但是，有时候我们可能会有多个输出值，比如loss=[loss1,loss2,loss3]，那么我们可以让loss的各个分量分别对x求导，这个时候就采用：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss.backward(torch.tensor([[1.0,1.0,1.0,1.0]]))</span><br></pre></td></tr></table></figure>
@@ -331,11 +336,11 @@
 </ul>
 <p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png" alt="20200211_223033_97"></p>
 <p>详情：<a href="https://www.jianshu.com/p/a105858567df" target="_blank" rel="noopener">https://www.jianshu.com/p/a105858567df</a></p>
-<h3 id="DataLoader"><a href="#DataLoader" class="headerlink" title="DataLoader"></a>DataLoader</h3><p>读取数据集的一个对象</p>
+<h4 id="DataLoader"><a href="#DataLoader" class="headerlink" title="DataLoader"></a>DataLoader</h4><p>读取数据集的一个对象</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">dataset(Dataset): 传入的数据集</span><br><span class="line">batch_size(int, optional): 每个batch有多少个样本</span><br><span class="line">shuffle(bool, optional): 在每个epoch开始的时候，对数据进行重新排序</span><br><span class="line">sampler(Sampler, optional): 自定义从数据集中取样本的策略，如果指定这个参数，那么shuffle必须为False</span><br><span class="line">batch_sampler(Sampler, optional): 与sampler类似，但是一次只返回一个batch的indices（索引），需要注意的是，一旦指定了这个参数，那么batch_size,shuffle,sampler,drop_last就不能再制定了（互斥——Mutually exclusive）</span><br><span class="line">num_workers (int, optional): 这个参数决定了有几个进程来处理data loading。0意味着所有的数据都会被load进主进程。（默认为0）</span><br><span class="line">collate_fn (callable, optional): 将一个list的sample组成一个mini-batch的函数</span><br><span class="line">pin_memory (bool, optional)： 如果设置为True，那么data loader将会在返回它们之前，将tensors拷贝到CUDA中的固定内存（CUDA pinned memory）中.</span><br><span class="line"></span><br><span class="line">drop_last (bool, optional): 如果设置为True：这个是对最后的未完成的batch来说的，比如你的batch_size设置为64，而一个epoch只有100个样本，那么训练的时候后面的36个就被扔掉了…</span><br><span class="line">如果为False（默认），那么会继续正常执行，只是最后的batch_size会小一点。</span><br><span class="line"></span><br><span class="line">timeout(numeric, optional): 如果是正数，表明等待从worker进程中收集一个batch等待的时间，若超出设定的时间还没有收集到，那就不收集这个内容了。这个numeric应总是大于等于0。默认为0</span><br><span class="line">worker_init_fn (callable, optional): 每个worker初始化函数 If not None, this will be called on each</span><br><span class="line">worker subprocess with the worker id (an int in [0, num_workers - 1]) as</span><br><span class="line">input, after seeding and before data loading. (default: None)</span><br></pre></td></tr></table></figure>
 
 <p>详情：<a href="https://www.cnblogs.com/ranjiewen/p/10128046.html" target="_blank" rel="noopener">https://www.cnblogs.com/ranjiewen/p/10128046.html</a></p>
-<h3 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h3><p>遵循以下情况之一</p>
+<h4 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h4><p>遵循以下情况之一</p>
 <ul>
 <li><p>数组维度不同，后缘维度的轴长相符</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">arr1 = np.array([[0, 0, 0],[1, 1, 1],[2, 2, 2], [3, 3, 3]])  #arr1.shape = (4,3)</span><br><span class="line">arr2 = np.array([1, 2, 3])    #arr2.shape = (3,)</span><br><span class="line">arr_sum = arr1 + arr2</span><br><span class="line">print(arr_sum)</span><br><span class="line"></span><br><span class="line">输入结果如下:</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">[[1 2 3]</span><br><span class="line"> [2 3 4]</span><br><span class="line">[3 4 5]</span><br><span class="line">[4 5 6]]</span><br><span class="line">&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
@@ -345,15 +350,15 @@
 
 </li>
 </ul>
-<h1 id="Task-2-softmax"><a href="#Task-2-softmax" class="headerlink" title="Task 2 softmax"></a>Task 2 softmax</h1><p>离散值的预测。</p>
+<h2 id="softmax"><a href="#softmax" class="headerlink" title="softmax"></a>softmax</h2><p>离散值的预测。</p>
 <p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164700_28.png" alt="20200212_164700_28"></p>
 <p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164737_90.png" alt="20200212_164737_90"></p>
-<h1 id="为啥使用指数函数？"><a href="#为啥使用指数函数？" class="headerlink" title="为啥使用指数函数？"></a>为啥使用指数函数？</h1><p>取决于误差存在所服从的分布，softmax回归是在误差服从多项式分布的基础上推导而来的。</p>
+<h3 id="为啥使用指数函数？"><a href="#为啥使用指数函数？" class="headerlink" title="为啥使用指数函数？"></a>为啥使用指数函数？</h3><p>取决于误差存在所服从的分布，softmax回归是在误差服从多项式分布的基础上推导而来的。</p>
 <p>softmax公式的得出方法大概解释可以解释为：<br>首先假设样本与理论标准函数的误差（类似于线性回归那一章中生成数据时叠加上的高斯误差）服从正态分布（高斯分布），并且不同样本之间独立同分布，<br>通过贝叶斯公式计算各个分类的概率，将高斯分布的公式带入公式之后化简得到。<br>在一些地方softmax函数又被称为归一化指数（normalized exponential）</p>
 <div style="text-align: right"> By Lee  </div>
 
 <p>在实际使用下，还会利用softmax的常数不变性，减去一一个常数，以防止指数爆炸,保证数值稳定性。</p>
-<h1 id="交叉熵-Vs-均方误差"><a href="#交叉熵-Vs-均方误差" class="headerlink" title="交叉熵 Vs 均方误差"></a>交叉熵 Vs 均方误差</h1><p>均方误差：<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171923_70.png" alt="20200212_171923_70"></p>
+<h3 id="交叉熵-Vs-均方误差"><a href="#交叉熵-Vs-均方误差" class="headerlink" title="交叉熵 Vs 均方误差"></a>交叉熵 Vs 均方误差</h3><p>均方误差：<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171923_70.png" alt="20200212_171923_70"></p>
 <p>交叉熵：<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172003_57.png" alt="20200212_172003_57"></p>
 <ul>
 <li><p>在分类问题的情况下，同时处理one-hot编码后的标签，交叉熵只关注正确标签的概率</p>
@@ -368,13 +373,51 @@
 <p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171802_30.png" alt="20200212_171802_30"></p>
 <p>Reference：<a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/35709485</a></p>
 <p><a href="https://www.cnblogs.com/aijianiula/p/9651879.html" target="_blank" rel="noopener">https://www.cnblogs.com/aijianiula/p/9651879.html</a></p>
-<h1 id="pytorch-学习"><a href="#pytorch-学习" class="headerlink" title="pytorch 学习"></a>pytorch 学习</h1><h2 id="torchvision"><a href="#torchvision" class="headerlink" title="torchvision"></a>torchvision</h2><p>服务于计算机视觉模型的包，由以下几部分构成</p>
+<h3 id="pytorch-学习"><a href="#pytorch-学习" class="headerlink" title="pytorch 学习"></a>pytorch 学习</h3><h4 id="torchvision"><a href="#torchvision" class="headerlink" title="torchvision"></a>torchvision</h4><p>服务于计算机视觉模型的包，由以下几部分构成</p>
 <ul>
 <li>datasets：加载数据集的函数以及一些数据集的接口</li>
 <li>models：常用的模型结构(包括预训练模型)</li>
 <li>transforms：常用的图片变换</li>
 <li>utils：其他有用的方法</li>
 </ul>
+<h2 id="多层感知机"><a href="#多层感知机" class="headerlink" title="多层感知机"></a>多层感知机</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_130921_48.png" alt="20200213_130921_48"></p>
+<p>如图，在前面的线性神经网络中加入了隐藏层，虽然加入了隐藏层，但因为，从输入到隐藏层，再从隐含层到输出层都仍是线性的网络结构，效果上仍然是与仅含输出层的单层神经网络等价，所以这里需要引入激活函数，以增加非线性的变换。</p>
+<p>激活函数的相关总结见以前的总结：<a href="https://belong34.github.io/2019/11/23/keras-layers-Dense/" target="_blank" rel="noopener">https://belong34.github.io/2019/11/23/keras-layers-Dense/</a></p>
+<h1 id="Task-2"><a href="#Task-2" class="headerlink" title="Task 2"></a>Task 2</h1><h2 id="文本预处理"><a href="#文本预处理" class="headerlink" title="文本预处理"></a>文本预处理</h2><p>文本是一类序列数据，通常预处理最基本的几个步骤</p>
+<ul>
+<li>读入文本(这里需要对文本做一些基本处理，例如：去掉每行首尾的一些空格，一些奇怪的字符等等)</li>
+<li>分词(分词的级别也要视情况而定词语or单词？)<br>这里也有一些继承好的分词方案：spaCy和NLTK</li>
+<li>建立词典，将每一个词映射到一个唯一的索引(index)</li>
+</ul>
+<p>去重</p>
+<p>受词频限制，有些出现次数比较少的可以忽略</p>
+<p>根据需要保留一些特殊的标记，如句首，句尾，不认识的词，还有补全词。</p>
+<ul>
+<li>将文本从词的序列转换为索引的序列，方便输入模型</li>
+</ul>
+<h3 id="re正则表达式库"><a href="#re正则表达式库" class="headerlink" title="re正则表达式库"></a>re正则表达式库</h3><p>这里只是点出几个常用函数，具体学习等有需要的时候再做补充</p>
+<ul>
+<li>re.compile：compile 函数用于编译正则表达式，生成一个正则表达式（ Pattern ）对象，供 match() 和 search() 这两个函数使用。</li>
+<li>re.match：只匹配字符串的开始。尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none</li>
+<li>re.search：匹配整个字符串。扫描整个字符串，并返回第一个成功的匹配。</li>
+<li>re.sub：re.sub用于替换字符串中的匹配项。</li>
+<li>re.findall：findall函数：在字符串中找到正则表达式所匹配的所有子串，并返回一个列表。</li>
+</ul>
+<p>reference：<a href="https://blog.csdn.net/qq_41185868/article/details/96422320" target="_blank" rel="noopener">https://blog.csdn.net/qq_41185868/article/details/96422320</a></p>
+<h2 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_174800_90.png" alt="20200213_174800_90"></p>
+<p>目标：给定一段序列，评估该序列是否合理(计算该序列的概率)</p>
+<h3 id="n元语法"><a href="#n元语法" class="headerlink" title="n元语法"></a>n元语法</h3><p>基于n-1阶马尔可夫链，将语言模型改写成</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175008_55.png" alt="20200213_175008_55"><br>当n=1，2，3时</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175040_17.png" alt="20200213_175040_17"></p>
+<h4 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h4><ul>
+<li>参数空间过大 ： 参数的多少时随着n的增大呈指数倍增长的</li>
+<li>数据稀疏 ：</li>
+</ul>
+<p>齐夫定律(也就是说随着词频表的排名下降，词频的减少是按倍数减少的)</p>
+<p>大部分词频都很小，往往连续的三四个字连成的词出现的词频也很小，可以用bigram、trigram等词袋模型解决</p>
+<p>而且词频最高的是停滞词(and，or)可以用tf-idf优化</p>
+<h3 id="序列模型的采样"><a href="#序列模型的采样" class="headerlink" title="序列模型的采样"></a>序列模型的采样</h3><p>如果将所有的样本都拿来使用，这些样本就会有大量的重合，降低计算的效率，所以采样方法很重要，以下两种采样方式(引用小罗同学的图图)：</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_181810_75.png" alt="20200213_181810_75"></p>
 
     </div>
 
@@ -448,7 +491,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-1-线性回归"><span class="nav-number">1.</span> <span class="nav-text">Task 1 线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><span class="nav-number">1.1.</span> <span class="nav-text">训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数值解-Vs-解析解"><span class="nav-number">1.2.</span> <span class="nav-text">数值解 Vs 解析解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch学习"><span class="nav-number">1.3.</span> <span class="nav-text">pytorch学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data"><span class="nav-number">1.3.1.</span> <span class="nav-text">.data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pytorch自动求导"><span class="nav-number">1.3.2.</span> <span class="nav-text">pytorch自动求导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataLoader"><span class="nav-number">1.3.3.</span> <span class="nav-text">DataLoader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广播机制"><span class="nav-number">1.3.4.</span> <span class="nav-text">广播机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-2-softmax"><span class="nav-number">2.</span> <span class="nav-text">Task 2 softmax</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为啥使用指数函数？"><span class="nav-number">3.</span> <span class="nav-text">为啥使用指数函数？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#交叉熵-Vs-均方误差"><span class="nav-number">4.</span> <span class="nav-text">交叉熵 Vs 均方误差</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pytorch-学习"><span class="nav-number">5.</span> <span class="nav-text">pytorch 学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#torchvision"><span class="nav-number">5.1.</span> <span class="nav-text">torchvision</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-1"><span class="nav-number">1.</span> <span class="nav-text">Task 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归"><span class="nav-number">1.1.</span> <span class="nav-text">线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><span class="nav-number">1.1.1.</span> <span class="nav-text">训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数值解-Vs-解析解"><span class="nav-number">1.1.2.</span> <span class="nav-text">数值解 Vs 解析解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pytorch学习"><span class="nav-number">1.1.3.</span> <span class="nav-text">pytorch学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#data"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">.data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pytorch自动求导"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">pytorch自动求导</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DataLoader"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">DataLoader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#广播机制"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">广播机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax"><span class="nav-number">1.2.</span> <span class="nav-text">softmax</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为啥使用指数函数？"><span class="nav-number">1.2.1.</span> <span class="nav-text">为啥使用指数函数？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵-Vs-均方误差"><span class="nav-number">1.2.2.</span> <span class="nav-text">交叉熵 Vs 均方误差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pytorch-学习"><span class="nav-number">1.2.3.</span> <span class="nav-text">pytorch 学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#torchvision"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">torchvision</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多层感知机"><span class="nav-number">1.3.</span> <span class="nav-text">多层感知机</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-2"><span class="nav-number">2.</span> <span class="nav-text">Task 2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本预处理"><span class="nav-number">2.1.</span> <span class="nav-text">文本预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#re正则表达式库"><span class="nav-number">2.1.1.</span> <span class="nav-text">re正则表达式库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言模型"><span class="nav-number">2.2.</span> <span class="nav-text">语言模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#n元语法"><span class="nav-number">2.2.1.</span> <span class="nav-text">n元语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#缺陷"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列模型的采样"><span class="nav-number">2.2.2.</span> <span class="nav-text">序列模型的采样</span></a></li></ol></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -537,12 +580,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">30k</span>
+    <span title="站点总字数">31k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">27 分钟</span>
+    <span title="站点阅读时长">28 分钟</span>
 </div>
 
         
