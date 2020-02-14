@@ -78,7 +78,7 @@
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_152234_78.png">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_155504_17.png">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_155545_24.png">
-<meta property="og:updated_time" content="2020-02-14T08:28:09.705Z">
+<meta property="og:updated_time" content="2020-02-14T08:31:47.171Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习14天笔记">
 <meta name="twitter:description" content="此为深度学习14天笔记">
@@ -269,7 +269,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-14 16:28:09" itemprop="dateModified" datetime="2020-02-14T16:28:09+08:00">2020-02-14</time>
+                <time title="修改时间：2020-02-14 16:31:47" itemprop="dateModified" datetime="2020-02-14T16:31:47+08:00">2020-02-14</time>
               </span>
             
           
@@ -427,7 +427,7 @@
 <li>基线情况下，模型总是预测所有类别的概率都相同，此时困惑度为类别个数。<br>显然，任何一个有效模型的困惑度必须小于类别个数。</li>
 </ul>
 <h3 id="关于隐藏状态的初始化"><a href="#关于隐藏状态的初始化" class="headerlink" title="关于隐藏状态的初始化"></a>关于隐藏状态的初始化</h3><p>在相邻采样中，第一个batch的隐藏状态初始化一次，后续batch中的第一个隐藏状态需要detach(从计算图中分离隐藏状态)。在相邻采样的时候，每个batch是相连的。如果不detach，即后一个batch的第一个隐藏状态和上一个batch的最后一个隐藏状态连在一起，那么在反向传播的时候，这个链式求导的过程会非常长，计算开销会特别大。detach后，requires_grad=False，这个链到此为止。</p>
-<p>至于随机采样，每个batch都需要初始化一次，毕竟大家都没什么关联。</p>
+<p>至于随机采样，每个batch都需要初始化一次，因为每个样本包含完整的时间序列信息。</p>
 
     </div>
 
