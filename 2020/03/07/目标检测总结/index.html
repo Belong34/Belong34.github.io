@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="本文的缘由来自于一个小项目，移动机器人的轨迹预测。就是通过一个装有双目机器人，去预测另一个个体扔出的投掷物的轨迹。这个项目有几个难点，一个是双目里程计的准确度。另一个是轨迹预测所需的时间以及准确度，最后一个就是目标的分割。在最开始的调试阶段，使用颜色阈值去滤出目标物，来测试与设计前面两个难点，最终的精确度大概是，投掷物出手0.2秒，落点的预测偏差是±15厘米以内，随着时间推移，到最后精确度基本上±">
+<meta property="og:type" content="article">
+<meta property="og:title" content="目标检测总结">
+<meta property="og:url" content="Belong34.github.io/2020/03/07/目标检测总结/index.html">
+<meta property="og:site_name" content="Renegades">
+<meta property="og:description" content="本文的缘由来自于一个小项目，移动机器人的轨迹预测。就是通过一个装有双目机器人，去预测另一个个体扔出的投掷物的轨迹。这个项目有几个难点，一个是双目里程计的准确度。另一个是轨迹预测所需的时间以及准确度，最后一个就是目标的分割。在最开始的调试阶段，使用颜色阈值去滤出目标物，来测试与设计前面两个难点，最终的精确度大概是，投掷物出手0.2秒，落点的预测偏差是±15厘米以内，随着时间推移，到最后精确度基本上±">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_232606_41.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_234631_15.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_235801_33.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200308_000353_10.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200308_004650_47.png">
+<meta property="og:updated_time" content="2020-03-07T17:17:53.595Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="目标检测总结">
+<meta name="twitter:description" content="本文的缘由来自于一个小项目，移动机器人的轨迹预测。就是通过一个装有双目机器人，去预测另一个个体扔出的投掷物的轨迹。这个项目有几个难点，一个是双目里程计的准确度。另一个是轨迹预测所需的时间以及准确度，最后一个就是目标的分割。在最开始的调试阶段，使用颜色阈值去滤出目标物，来测试与设计前面两个难点，最终的精确度大概是，投掷物出手0.2秒，落点的预测偏差是±15厘米以内，随着时间推移，到最后精确度基本上±">
+<meta name="twitter:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_232606_41.png">
+  <link rel="canonical" href="Belong34.github.io/2020/03/07/目标检测总结/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>目标检测总结 | Renegades</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Renegades</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="Belong34.github.io/2020/03/07/目标检测总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="狗仔源">
+      <meta itemprop="description" content="VCC & ME">
+      <meta itemprop="image" content="/images/22.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renegades">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            目标检测总结
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-07 15:24:42" itemprop="dateCreated datePublished" datetime="2020-03-07T15:24:42+08:00">2020-03-07</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-08 01:17:53" itemprop="dateModified" datetime="2020-03-08T01:17:53+08:00">2020-03-08</time>
+              </span>
+            
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>4k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>4 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文的缘由来自于一个小项目，移动机器人的轨迹预测。就是通过一个装有双目机器人，去预测另一个个体扔出的投掷物的轨迹。这个项目有几个难点，一个是双目里程计的准确度。另一个是轨迹预测所需的时间以及准确度，最后一个就是目标的分割。在最开始的调试阶段，使用颜色阈值去滤出目标物，来测试与设计前面两个难点，最终的精确度大概是，投掷物出手0.2秒，落点的预测偏差是±15厘米以内，随着时间推移，到最后精确度基本上±2.5里面内。观察双目读到的点云数据，发现得到的点云数据，其实不太稳定，在老师的指导下，我将最小值滤波改成自适应核子大小的最小值+均值滤波，效果好了一点，但标准差还是有点大。所以我认为误差最大的问题还是存在于对于目标检测上。在后续的解决目标检测的路上，侧重于基于深度学习的目标追踪，由于之前没接触过这个领域，所以走了挺多弯路。所以本文侧重于记录一些关于这个目标分割的一些理解。</p>
+<h1 id="图像分割的几种方法"><a href="#图像分割的几种方法" class="headerlink" title="图像分割的几种方法"></a>图像分割的几种方法</h1><ul>
+<li>基于阈值的分割：利用图像的颜色阈值做出的分割。包括自适应阈值分割，直方图分割，三(单)通道的固定阈值分割，OSTU等等。</li>
+<li>基于边缘的分割：利用像素间的灰度变化的剧烈程度。常用一些算子：Roberts算子（精度高、对噪声敏感）、Sobel算子（对噪声有平滑，精度低）、Prewitt算子、Canny算子（检测阶跃型边缘效果好，抗噪声）、Laplacian算子和Marr算子（即LOG算子，速度快但对噪声敏感）</li>
+<li>基于区域的分割：利用图像的空间信息分割，按照相似性划分不同区域。包括：分裂合并法、区域生长法和分水岭分割方法</li>
+<li>基于图论的分割：主要是思想是把图像映射为一个带权的无向图，图像中的原素对应于图的节点，像素之间的相邻关系对应图的边，而像素之间的关系形成边的权重，然后使用一定的图论分割理论，根据边权特征，对图进行分割，形成各自独立的图。图论算法有很多优点，比如它很好的结合图像全局和部分的特征。包括：Normalized Cuts算法，Graph Cutstong’cha算法，Superpixel lattice算法等</li>
+<li>基于小波的分割：波变换是一种多尺度多通道分析工具，适合多尺度边缘检测。小波变换适用于检测图像的局部奇异性，通过检测极大值点来确定图像的边缘。在大尺度上，边缘比较稳定，噪声不敏感，但由于采样移位的影响，边缘的定位精度较差；在小尺度上，边缘细节信息比较丰富，边缘定位精度较高，但对噪声比较敏感。因此，可以综合两者的优势。</li>
+<li>基于神经网络的分割：通过训练得到决策函数用于对像素分类达到分割的目的。</li>
+</ul>
+<h1 id="目标分割VS目标识别VS目标检测VS目标跟踪"><a href="#目标分割VS目标识别VS目标检测VS目标跟踪" class="headerlink" title="目标分割VS目标识别VS目标检测VS目标跟踪"></a>目标分割VS目标识别VS目标检测VS目标跟踪</h1><ul>
+<li>目标分割(图像分割)：是指将图片中的目标分割出来。通常用Decoder-encoder。</li>
+<li>目标识别：本质是做分类，网络的最后一层接softmax用于分类，在图像分割的聚类基础上，识别哪些是第一类，第二类，等等。</li>
+<li>目标检测：是指是对目标的分类+定位，不要求移动目标丢失也能被检测到。这类的算法通常是对整张图片做采样。所以一般来说，帧率比较低。熟悉的是YOLO，R-CNN，fast R-CNN，SSD，Centernet等等</li>
+<li>目标跟踪：这个任务涉及的数据一般是时间序列，首先要目标定位，然后在接下来的时间序列中借助上一次的Bounding Box的数据在其周围采样。减少重复的计算，帧率比较高</li>
+</ul>
+<p>我就是在目标追踪与目标检测中走错了方向，这里再讲讲两者的几点区别：</p>
+<ul>
+<li>目标检测需要对目标有先验知识，而跟踪不需要，跟踪采用的是在线的标定目标(也就是所谓One-shot问题)，而检测则需要训练目标。</li>
+<li>目标检测针对的图片，所以一般采样范围比较大，后者针对视频，利用上一帧的bb可实现局部采样，加速计算。</li>
+<li>目标检测不要求移动目标丢失也能被检测到，跟踪呢，就像警察抓跟踪犯人一样，即使跟丢了，下次犯人出现也能被识别。</li>
+<li>目标需要分类，跟着不需要，取决于你标定什么，只需定位。</li>
+</ul>
+<h1 id="目标跟踪的论文分析"><a href="#目标跟踪的论文分析" class="headerlink" title="目标跟踪的论文分析"></a>目标跟踪的论文分析</h1><p>由于走错路了，所以精力都放在了目标追踪，这里就总结一下目标追踪的各种算法的理解。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_232606_41.png" alt="20200307_232606_41"></p>
+<p>从上面那张来自谷歌的图，可以看出，目标跟踪这个领域有两个比较大的方向，一个是基于深度学习，一个是基于相关性滤波。早期以相关性滤波为主(特别是KCF)，后期慢慢转移到了深度学习。我这段时间的研究也是在于深度学习的一些算法。</p>
+<h2 id="流派"><a href="#流派" class="headerlink" title="流派"></a>流派</h2><p>在深度学习领域，主要有三个大的流派。</p>
+<ul>
+<li>以DCF、SIamFC为主的追踪器，在原图上以多尺度为划分，将搜索区域缩放多个比例进行组装，并选择最高分类得分对应的量表；</li>
+<li>以ATOM为主的追踪器，受到IOU-NET的启发，以迭代训练的方式多重随机初始化帧与背面边框的数量，带来了较多的超参数以及时间上的消耗；</li>
+<li>以SiamRPN为主的追踪器，以RPN回归的思想，预先定义锚点之间的位移偏移与大小的差异，此类方法基于目标检测，虽然能够找到优秀的精确的状态值，但是对于较大的尺度变化等困难样例来说，锚点与框的先验因素限制了追踪器的鲁棒性，容易产生lost。</li>
+</ul>
+<p>关于以SiamRPN为主的追踪器，关于锚点的算法的具体实现可以看我的之前的博文<a href="https://belong34.github.io/2020/02/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A014%E5%A4%A9%E7%AC%94%E8%AE%B0/#more" target="_blank" rel="noopener">深度学习14天笔记：7.1</a></p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><p>下文主要选择几个接触(使用)到的单目标追踪网络进行分析。</p>
+<h3 id="SiamFC"><a href="#SiamFC" class="headerlink" title="SiamFC"></a>SiamFC</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_234631_15.png" alt="20200307_234631_15"></p>
+<p>SiamFC是比较经典的网络，他带来的变革就是提供了一条思路：将跟踪当做匹配问题解决(根据图片的相关性(具体指标可以是交并比，heatmap等))。z是(在一开始标定的目标(模板图))，x是实际图像，后面两者都跟着一个5层不带padding的AlexNet提取特征，得到x和z的feature map。然后z的feature map作为卷积核在上面卷积，得到heatmap，最高分的就是中心。</p>
+<p>但是不带padding的AlexNet带来了一个问题：模型不能加深。那么为什么不带padding呢，以为带了padding会使得边缘的值发生变化，使得边缘被检测到的概率很低。下文的siamRPN++和siamDW解决了这个问题。</p>
+<h3 id="siamRPN"><a href="#siamRPN" class="headerlink" title="siamRPN++"></a>siamRPN++</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_235801_33.png" alt="20200307_235801_33"></p>
+<p>上文提到不带padding的AlexNet的网络加深的问题，siamRPN++如何解决呢？padding就是在图片边缘加上黑边，但是黑边肯定不是我们的目标，而黑边总是在边缘，那么对于神经网络来说，它就会认为边缘都不是目标，即离边缘越远的越可能是目标。这就导致了神经网络总是习惯认为图像中心的是目标，而忽视目标本身的特征。解决方案：既然总是侧重在中心，那么在训练时让目标相对于中心偏移几个像素就ok啦，论文中实验表明偏移64个像素最佳.有了这一步，网络也换成了resNet50。</p>
+<h3 id="siamDW"><a href="#siamDW" class="headerlink" title="siamDW"></a>siamDW</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200308_000353_10.png" alt="20200308_000353_10"></p>
+<p>针对不带padding的AlexNet的网络加深的问题，siamDW设计了一种新的残差网络结构，先padding，得到feature map后再删除feature map上受padding影响元素。其次作者给了读者们一个启示：最好的感受野在60%到80%最佳，且卷积核的步长最好是在4~8。</p>
+<h3 id="SiamFC-1"><a href="#SiamFC-1" class="headerlink" title="SiamFC++"></a>SiamFC++</h3><p>我最后代码复现并使用效果最好的是SiamFC++，一篇来自去年年底的论文。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200308_004650_47.png" alt="20200308_004650_47"></p>
+<p>绿色部分是SiamFC，红色部分是质量评估分支，蓝色部分是回归(用于位置的估计)。然后分类和回归的结合用到了一个argmax。值得注意的是网络是anchor free的，<br>具体的改进：</p>
+<ul>
+<li>分解分类与位置估计：分类器专攻将目标物体与背景分离，而位置估计则是为了产生更准确的BB，忽略了位置估计，精度低下；缺少分类分支，判别性会降低。</li>
+<li>分类与位置估计使用的feature map要分开。即不能分类的feature map上直接得到位置的估计，否则会降低位置的准确度</li>
+<li>siam没有使用锚点，anchor Free。这一点利弊考究可以参考一下<a href="https://zhuanlan.zhihu.com/p/63868458" target="_blank" rel="noopener">FCOS</a>。</li>
+<li>不能加入数据分布的先验知识，例如原始siamFC的三种尺度变换，anchors等实际上都是对目标尺度的一种先验，否则会影响模型的通用性。</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>虽然在项目上磕磕绊绊走了很多弯路，但是也收获到了许多知识。关于目标追踪与我的项目，由于在实际应用在robocon中是两个机器人的抛接嘛，问题出现在标定上，SiamFC++的每次采样时根据上一帧的位置做出估计的。所以不能提前标定。其次，因为位置相差很大。如果消失没有目标他会根据大概的位置圈住机器人，虽然在球抛出的几帧内会，BB会回到球上面，但是这样会使得抛出的那段时间的数据不可用，这样就失去了很多数据，特别时这些数据是最开始的数据，这是我不想看到的。接下来可能去考虑一下目标检测的一些算法或者3d情况下的目标分割。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li>SiamFC++：<a href="https://zhuanlan.zhihu.com/p/93888180" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/93888180</a></li>
+<li>FCOS：<a href="https://zhuanlan.zhihu.com/p/63868458" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/63868458</a></li>
+<li>SiamDW：<a href="https://blog.csdn.net/sinat_31184961/article/details/88033336" target="_blank" rel="noopener">https://blog.csdn.net/sinat_31184961/article/details/88033336</a></li>
+<li>SiamMask：<a href="https://www.leiphone.com/news/201903/uvnb6GApUWAQ9JA4.html" target="_blank" rel="noopener">https://www.leiphone.com/news/201903/uvnb6GApUWAQ9JA4.html</a></li>
+<li>One-shot：<a href="https://blog.csdn.net/ybdesire/article/details/82974392" target="_blank" rel="noopener">https://blog.csdn.net/ybdesire/article/details/82974392</a></li>
+<li>VOT in DeepLearning：<a href="https://www.jianshu.com/p/7bcb18084966" target="_blank" rel="noopener">https://www.jianshu.com/p/7bcb18084966</a></li>
+<li>图像分割算法及与目标检测、目标识别、目标跟踪的关系：<a href="https://blog.csdn.net/piaoxuezhong/article/details/78985024" target="_blank" rel="noopener">https://blog.csdn.net/piaoxuezhong/article/details/78985024</a></li>
+<li>SiamFC++论文：<a href="https://arxiv.org/abs/1911.06188" target="_blank" rel="noopener">https://arxiv.org/abs/1911.06188</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/96631118" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/96631118</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/03/02/acm/" rel="next" title="acm">
+                  <i class="fa fa-chevron-left"></i> acm
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图像分割的几种方法"><span class="nav-number">1.</span> <span class="nav-text">图像分割的几种方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目标分割VS目标识别VS目标检测VS目标跟踪"><span class="nav-number">2.</span> <span class="nav-text">目标分割VS目标识别VS目标检测VS目标跟踪</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目标跟踪的论文分析"><span class="nav-number">3.</span> <span class="nav-text">目标跟踪的论文分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流派"><span class="nav-number">3.1.</span> <span class="nav-text">流派</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络"><span class="nav-number">3.2.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SiamFC"><span class="nav-number">3.2.1.</span> <span class="nav-text">SiamFC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#siamRPN"><span class="nav-number">3.2.2.</span> <span class="nav-text">siamRPN++</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#siamDW"><span class="nav-number">3.2.3.</span> <span class="nav-text">siamDW</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SiamFC-1"><span class="nav-number">3.2.4.</span> <span class="nav-text">SiamFC++</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/22.png"
+      alt="狗仔源">
+  <p class="site-author-name" itemprop="name">狗仔源</p>
+  <div class="site-description" itemprop="description">VCC & ME</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:530738743@qq.com" title="E-Mail &rarr; mailto:530738743@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">狗仔源</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">50k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">45 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '3fd967d31c63d255d193',
+      clientSecret: 'b8ead67458a8526ad97a04eb9a872c28c8ec09ff',
+      repo: 'BelongComments',
+      owner: 'Belong34',
+      admin: ['Belong34'],
+      id: 'dc71104f1f9838d9721d077059ff07fc',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":0,"vOffset":20},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
