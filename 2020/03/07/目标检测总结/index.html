@@ -57,7 +57,7 @@
 
   <meta name="description" content="本文的缘由来自于一个小项目，移动机器人的轨迹预测。就是通过一个装有双目机器人，去预测另一个个体扔出的投掷物的轨迹。这个项目有几个难点，一个是双目里程计的准确度。另一个是轨迹预测所需的时间以及准确度，最后一个就是目标的分割。在最开始的调试阶段，使用颜色阈值去滤出目标物，来测试与设计前面两个难点，最终的精确度大概是，投掷物出手0.2秒，落点的预测偏差是±15厘米以内，随着时间推移，到最后精确度基本上±">
 <meta property="og:type" content="article">
-<meta property="og:title" content="目标检测总结">
+<meta property="og:title" content="目标追踪总结">
 <meta property="og:url" content="Belong34.github.io/2020/03/07/目标检测总结/index.html">
 <meta property="og:site_name" content="Renegades">
 <meta property="og:description" content="本文的缘由来自于一个小项目，移动机器人的轨迹预测。就是通过一个装有双目机器人，去预测另一个个体扔出的投掷物的轨迹。这个项目有几个难点，一个是双目里程计的准确度。另一个是轨迹预测所需的时间以及准确度，最后一个就是目标的分割。在最开始的调试阶段，使用颜色阈值去滤出目标物，来测试与设计前面两个难点，最终的精确度大概是，投掷物出手0.2秒，落点的预测偏差是±15厘米以内，随着时间推移，到最后精确度基本上±">
@@ -67,9 +67,9 @@
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_235801_33.png">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200308_000353_10.png">
 <meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200308_004650_47.png">
-<meta property="og:updated_time" content="2020-03-07T17:17:53.595Z">
+<meta property="og:updated_time" content="2020-03-08T02:04:45.496Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="目标检测总结">
+<meta name="twitter:title" content="目标追踪总结">
 <meta name="twitter:description" content="本文的缘由来自于一个小项目，移动机器人的轨迹预测。就是通过一个装有双目机器人，去预测另一个个体扔出的投掷物的轨迹。这个项目有几个难点，一个是双目里程计的准确度。另一个是轨迹预测所需的时间以及准确度，最后一个就是目标的分割。在最开始的调试阶段，使用颜色阈值去滤出目标物，来测试与设计前面两个难点，最终的精确度大概是，投掷物出手0.2秒，落点的预测偏差是±15厘米以内，随着时间推移，到最后精确度基本上±">
 <meta name="twitter:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_232606_41.png">
   <link rel="canonical" href="Belong34.github.io/2020/03/07/目标检测总结/">
@@ -86,7 +86,7 @@
   };
 </script>
 
-  <title>目标检测总结 | Renegades</title>
+  <title>目标追踪总结 | Renegades</title>
   
 
 
@@ -230,7 +230,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            目标检测总结
+            目标追踪总结
             
 
           
@@ -258,7 +258,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-08 01:17:53" itemprop="dateModified" datetime="2020-03-08T01:17:53+08:00">2020-03-08</time>
+                <time title="修改时间：2020-03-08 10:04:45" itemprop="dateModified" datetime="2020-03-08T10:04:45+08:00">2020-03-08</time>
               </span>
             
           
@@ -296,6 +296,8 @@
 
       
         <p>本文的缘由来自于一个小项目，移动机器人的轨迹预测。就是通过一个装有双目机器人，去预测另一个个体扔出的投掷物的轨迹。这个项目有几个难点，一个是双目里程计的准确度。另一个是轨迹预测所需的时间以及准确度，最后一个就是目标的分割。在最开始的调试阶段，使用颜色阈值去滤出目标物，来测试与设计前面两个难点，最终的精确度大概是，投掷物出手0.2秒，落点的预测偏差是±15厘米以内，随着时间推移，到最后精确度基本上±2.5里面内。观察双目读到的点云数据，发现得到的点云数据，其实不太稳定，在老师的指导下，我将最小值滤波改成自适应核子大小的最小值+均值滤波，效果好了一点，但标准差还是有点大。所以我认为误差最大的问题还是存在于对于目标检测上。在后续的解决目标检测的路上，侧重于基于深度学习的目标追踪，由于之前没接触过这个领域，所以走了挺多弯路。所以本文侧重于记录一些关于这个目标分割的一些理解。</p>
+<a id="more"></a>
+
 <h1 id="图像分割的几种方法"><a href="#图像分割的几种方法" class="headerlink" title="图像分割的几种方法"></a>图像分割的几种方法</h1><ul>
 <li>基于阈值的分割：利用图像的颜色阈值做出的分割。包括自适应阈值分割，直方图分割，三(单)通道的固定阈值分割，OSTU等等。</li>
 <li>基于边缘的分割：利用像素间的灰度变化的剧烈程度。常用一些算子：Roberts算子（精度高、对噪声敏感）、Sobel算子（对噪声有平滑，精度低）、Prewitt算子、Canny算子（检测阶跃型边缘效果好，抗噪声）、Laplacian算子和Marr算子（即LOG算子，速度快但对噪声敏感）</li>
@@ -315,7 +317,7 @@
 <li>目标检测需要对目标有先验知识，而跟踪不需要，跟踪采用的是在线的标定目标(也就是所谓One-shot问题)，而检测则需要训练目标。</li>
 <li>目标检测针对的图片，所以一般采样范围比较大，后者针对视频，利用上一帧的bb可实现局部采样，加速计算。</li>
 <li>目标检测不要求移动目标丢失也能被检测到，跟踪呢，就像警察抓跟踪犯人一样，即使跟丢了，下次犯人出现也能被识别。</li>
-<li>目标需要分类，跟着不需要，取决于你标定什么，只需定位。</li>
+<li>目标需要分类物体具体是什么东西，跟踪不需要，取决于你标定什么，只需定位。</li>
 </ul>
 <h1 id="目标跟踪的论文分析"><a href="#目标跟踪的论文分析" class="headerlink" title="目标跟踪的论文分析"></a>目标跟踪的论文分析</h1><p>由于走错路了，所以精力都放在了目标追踪，这里就总结一下目标追踪的各种算法的理解。</p>
 <p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200307_232606_41.png" alt="20200307_232606_41"></p>
