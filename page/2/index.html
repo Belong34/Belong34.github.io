@@ -209,6 +209,144 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="Belong34.github.io/2019/11/09/opencv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="狗仔源">
+      <meta itemprop="description" content="VCC & ME">
+      <meta itemprop="image" content="/images/22.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renegades">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            
+            <a href="/2019/11/09/opencv/" class="post-title-link" itemprop="url">opencv</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-09 23:46:18" itemprop="dateCreated datePublished" datetime="2019-11-09T23:46:18+08:00">2019-11-09</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-21 09:44:37" itemprop="dateModified" datetime="2019-12-21T09:44:37+08:00">2019-12-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Opencv/" itemprop="url" rel="index">
+                    <span itemprop="name">Opencv</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>1.4k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>1 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="高斯核的核子大小"><a href="#高斯核的核子大小" class="headerlink" title="高斯核的核子大小"></a>高斯核的核子大小</h3><p>标准差σ确定后，接下来需要确定窗口大小。上面讲了高斯核是对连续高斯的离散近似，窗口越大自然近似越好，但高斯函数是钟形曲线，距离中心越远数值越小，足够远处可以忽略不计，但多远算远呢？</p>
+<p>钟型曲线在区间(μ−σ,μ+σ)范围内的面积占曲线下总面积的68%，(μ−2σ,μ+2σ)范围占95%，(μ−3σ,μ+3σ)范围占99.7%，一般3σ外的数值已接近于0，可忽略，半径为3σ即窗口大小为6σ×6σ即可，通常取最近的奇数。上述3个范围在一维和二维高斯中示意如下：</p>
+<h3 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src= cv2.imread(&quot;D://1.png&quot;)</span><br><span class="line">dst = src                     # 浅拷贝</span><br><span class="line">dst = src.clone()             # 深拷贝</span><br><span class="line">src.copyTo(dst)               # 深拷贝</span><br></pre></td></tr></table></figure>
+
+<h3 id="关于形态学操作的一些应用"><a href="#关于形态学操作的一些应用" class="headerlink" title="关于形态学操作的一些应用"></a>关于形态学操作的一些应用</h3><ul>
+<li>利用膨胀提取物体的边界 -&gt;膨胀-原图 =边界</li>
+<li>腐蚀分离连通的物体</li>
+<li>闭运算消除孔洞</li>
+<li>开运算去毛刺</li>
+</ul>
+<h3 id="Gabor滤波器"><a href="#Gabor滤波器" class="headerlink" title="Gabor滤波器"></a>Gabor滤波器</h3><p>Gabor是一个用于边缘提取的线性滤波器，其频率和方向表达与人类视觉系统类似，能够提供良好的方向选择和尺度选择特性，而且对于光照变化不敏感，因此十分适合纹理分析。在人脸识别等领域有着很广泛的应用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Mat getGaborKernel( Size ksize, double sigma, double theta,</span><br><span class="line">    double lambd, double gamma, double psi = CV_PI*0.5, int ktype = CV_64F );</span><br><span class="line"></span><br><span class="line">void filter2D( InputArray src, OutputArray dst, int ddepth,</span><br><span class="line">    InputArray kernel, Point anchor = Point(-1,-1), double delta = 0,</span><br><span class="line">    int borderType = BORDER_DEFAULT );</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191221_091837_31.png" alt="20191221_091837_31"></p>
+<p>但是如何描述纹理特征，好像是涉及到统计学的一些方法还有一些描述子(如lbp)，这个日后补充</p>
+<h3 id="关于图片相似性的分析"><a href="#关于图片相似性的分析" class="headerlink" title="关于图片相似性的分析"></a>关于图片相似性的分析</h3><p>SSIM能确定图像是否被篡改以及篡改的位置<br>详情见：<a href="http://www.sohu.com/a/332523174_120197868" target="_blank" rel="noopener">http://www.sohu.com/a/332523174_120197868</a></p>
+<h3 id="距离变换"><a href="#距离变换" class="headerlink" title="距离变换"></a>距离变换</h3><p>如果应用到单幅图像上则是主要为目标细化、骨架提取、粘连物体的分离，细化字符，找质心等；如果应用到原图跟模板图则是应用于图像匹配，如果光照条件不变的条件下，这种可以达到很好的匹配效果。鲁棒性最好的是要使用归一化相关系数匹配方法。<br>Opencv中distanceTransform方法用于计算图像中每一个非零点距离离自己最近的零点的距离，保存了每一个点与最近的零点的距离信息，图像上越亮的点，代表了离零点的距离越远。一般来说需要与归一化结合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cv::distanceTransform(srcBinary, dstImage, CV_DIST_L2,CV_DIST_MASK_PRECISE);// 距离变换</span><br><span class="line">cv::normalize(dstImage, dstImage, 0, 1., cv::NORM_MINMAX);// 归一化</span><br></pre></td></tr></table></figure>
+
+<h3 id="图像旋转"><a href="#图像旋转" class="headerlink" title="图像旋转"></a>图像旋转</h3><p>使用仿射变换。我一般是用在图像主要轮廓的提取以及分割上的。最小外接矩形+仿射变换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rot_mat = cv2.getRotationMatrix2D(center, angle, 1.0)</span><br><span class="line">src25 = cv2.warpAffine(src2, rot_mat, (src2.shape[1], src2.shape[0]))   # 旋转中心，旋转角度，缩放比</span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="Belong34.github.io/2019/10/27/ROS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1365,7 +1503,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1378,18 +1516,9 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span>
         </a>
-      </div>
-    
-      
-      
-      <div class="site-state-item site-state-tags">
-        
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">标签</span>
-        
       </div>
     
   </nav>
@@ -1435,12 +1564,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">59k</span>
+    <span title="站点总字数">60k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">54 分钟</span>
+    <span title="站点阅读时长">55 分钟</span>
 </div>
 
         
