@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="本文为mooc笔记:https://www.icourse163.org/course/ISCAS-1002580008 catkin工作结构ROS定制的编译构建系统，对cmake的扩展">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS1 learning">
+<meta property="og:url" content="Belong34.github.io/2019/10/27/ROS/ROS1 learning/index.html">
+<meta property="og:site_name" content="Renegades">
+<meta property="og:description" content="本文为mooc笔记:https://www.icourse163.org/course/ISCAS-1002580008 catkin工作结构ROS定制的编译构建系统，对cmake的扩展">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_153520_39.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_110253_16.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_110431_10.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_110748_34.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_110911_79.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_111015_44.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_154514_27.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_154845_13.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_161220_34.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_162639_54.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_190042_31.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_190453_74.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_190519_71.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_190543_47.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_191114_77.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_191412_16.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_000247_39.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_141916_77.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_232812_50.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233033_43.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233006_48.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233110_74.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233124_32.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233141_69.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233201_75.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233245_68.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233320_83.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233707_54.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_234536_36.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_235242_20.png">
+<meta property="og:updated_time" content="2023-10-16T13:58:12.716Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ROS1 learning">
+<meta name="twitter:description" content="本文为mooc笔记:https://www.icourse163.org/course/ISCAS-1002580008 catkin工作结构ROS定制的编译构建系统，对cmake的扩展">
+<meta name="twitter:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_153520_39.png">
+  <link rel="canonical" href="Belong34.github.io/2019/10/27/ROS/ROS1 learning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>ROS1 learning | Renegades</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Renegades</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="Belong34.github.io/2019/10/27/ROS/ROS1 learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="狗仔源">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/22.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renegades">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            ROS1 learning
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-27 10:58:02" itemprop="dateCreated datePublished" datetime="2019-10-27T10:58:02+08:00">2019-10-27</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-16 21:58:12" itemprop="dateModified" datetime="2023-10-16T21:58:12+08:00">2023-10-16</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ROS/" itemprop="url" rel="index">
+                    <span itemprop="name">ROS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>1.6k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>1 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文为mooc笔记:<a href="https://www.icourse163.org/course/ISCAS-1002580008" target="_blank" rel="noopener">https://www.icourse163.org/course/ISCAS-1002580008</a></p>
+<h4 id="catkin工作结构"><a href="#catkin工作结构" class="headerlink" title="catkin工作结构"></a>catkin工作结构</h4><p>ROS定制的编译构建系统，对cmake的扩展<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_153520_39.png" alt="20191028_153520_39"></p>
+<a id="more"></a>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_110253_16.png" alt="20191027_110253_16"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_110431_10.png" alt="20191027_110431_10"></p>
+<h4 id="catkin-make功能"><a href="#catkin-make功能" class="headerlink" title="catkin_make功能"></a>catkin_make功能</h4><p>1.建立工作空间<br>2.编译(编译完需要source刷新环境)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/catkin_ws/devel/setup.bash</span><br></pre></td></tr></table></figure>
+
+<h4 id="package"><a href="#package" class="headerlink" title="package"></a>package</h4><p>catkin编译的基本单元，可对应多个可执行文件。<br>最精简定义:CMakeLists.txt(catkin编译规则)和package.xml(package的属性)<br>也可放自定义通信的内容：消息(msg),服务(srv),动作(action)<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_110748_34.png" alt="20191027_110748_34"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_110911_79.png" alt="20191027_110911_79"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191027_111015_44.png" alt="20191027_111015_44"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_154514_27.png" alt="20191028_154514_27"></p>
+<h4 id="自定义通信格式"><a href="#自定义通信格式" class="headerlink" title="自定义通信格式"></a>自定义通信格式</h4><p>消息(msg)服务(srv)动作(action)</p>
+<h4 id="launch以及配置文件"><a href="#launch以及配置文件" class="headerlink" title="launch以及配置文件"></a>launch以及配置文件</h4><p>launch文件(launch)一次性配置多个可执行文件放在launch文件夹</p>
+<p>文件配置文件(yaml)参数以及一些设置放在config文件夹</p>
+<h4 id="常用的一些package指令"><a href="#常用的一些package指令" class="headerlink" title="常用的一些package指令"></a>常用的一些package指令</h4><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_154845_13.png" alt="20191028_154845_13"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosdep install <span class="comment">#安装包所需要的依赖(catkin_make前)定义在package.sml</span></span><br></pre></td></tr></table></figure>
+
+<p>source 用于找到自己编译生成的package (当前终端有效，一般加到.bashrc里就ok)</p>
+<h4 id="metapackage"><a href="#metapackage" class="headerlink" title="metapackage"></a>metapackage</h4><p>虚包，没有实质内容，但是依赖着许多其他软件包(stack)，将相似功能的软件包组织起来</p>
+<p>包的依赖关系存在package.xml</p>
+<h2 id="通信架构"><a href="#通信架构" class="headerlink" title="通信架构"></a>通信架构</h2><h4 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h4><p>节点管理器，每个node启动时都要向master注册，管理着node之间的通信</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roscore  <span class="comment">#启动ros master，顺带启动rosout(日志输出),parameter sever(参数服务器)</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h4><p>ROS的进程，pkg中的可执行文件运行的实例(动态)，一般以功能划分</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rosrun  <span class="comment">#启动node</span></span><br><span class="line">rosnode list <span class="comment">#列出当前运行的node信息</span></span><br><span class="line">rosnode info node_name <span class="comment">#显示某个node 的详细信息</span></span><br><span class="line">rosnode <span class="built_in">kill</span> node_name <span class="comment">#结束某个node</span></span><br><span class="line">roslaunch pkg_name file_name.launch <span class="comment">#启动master和多个node</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_161220_34.png" alt="20191028_161220_34"></p>
+<h2 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h2><h3 id="topic"><a href="#topic" class="headerlink" title="topic"></a>topic</h3><p>ROS的异步通信方式,Node间通过publish-subscribe机制通信(多发送(publish())多接收)</p>
+<h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>topic内容的数据类型(类)，定义在*.msg文件中</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_162639_54.png" alt="20191028_162639_54"></p>
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><p>ROS中的同步通信方式，Node间可以通过request-reply方式通信(有人调就执行，否则不执行，会堵塞client)</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_190042_31.png" alt="20191028_190042_31"></p>
+<h4 id="srv"><a href="#srv" class="headerlink" title="srv"></a>srv</h4><p>service通信的数据格式，定义在*.srv文件中<br>srv嵌套msg</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_190453_74.png" alt="20191028_190453_74"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_190519_71.png" alt="20191028_190519_71"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_190543_47.png" alt="20191028_190543_47"></p>
+<h3 id="parameter-service"><a href="#parameter-service" class="headerlink" title="parameter_service"></a>parameter_service</h3><p>参数服务器,维护着一个存储各种参数的字典(key-value),可用命令行,launch文件和node(API)读写,一般是存储各类配置参数</p>
+<h4 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h4><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_191114_77.png" alt="20191028_191114_77"></p>
+<h4 id="launch文件"><a href="#launch文件" class="headerlink" title="launch文件"></a>launch文件</h4><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191028_191412_16.png" alt="20191028_191412_16"></p>
+<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><p>类似Service,带有状态反馈的通信方式。通常用在长时间，可抢占的任务中</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_000247_39.png" alt="20191029_000247_39"></p>
+<h4 id="action"><a href="#action" class="headerlink" title="action"></a>action</h4><p>action通信的数据格式，定义在*.action文件中</p>
+<h2 id="rosbag"><a href="#rosbag" class="headerlink" title="rosbag"></a>rosbag</h2><p>ROS命令行工具，记录和回放数据流</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_141916_77.png" alt="20191029_141916_77"></p>
+<h2 id="Client-Library"><a href="#Client-Library" class="headerlink" title="Client Library"></a>Client Library</h2><p>提供Ros编程的库,可以类比为api(在api上又做了一层封装)，接口.<br>roscpp(执行)，rospy(开发)…..</p>
+<h2 id="roscpp"><a href="#roscpp" class="headerlink" title="roscpp"></a>roscpp</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_232812_50.png" alt="20191029_232812_50"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233033_43.png" alt="20191029_233033_43"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233006_48.png" alt="20191029_233006_48"></p>
+<h2 id="rospy"><a href="#rospy" class="headerlink" title="rospy"></a>rospy</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233110_74.png" alt="20191029_233110_74"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233124_32.png" alt="20191029_233124_32"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233141_69.png" alt="20191029_233141_69"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233201_75.png" alt="20191029_233201_75"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233245_68.png" alt="20191029_233245_68"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233320_83.png" alt="20191029_233320_83"></p>
+<h2 id="TF"><a href="#TF" class="headerlink" title="TF"></a>TF</h2><p>TRANFORM,坐标系转换(位置+姿态)，维护坐标系，坐标转换的标准，话题，工具，接口(roscpp,rospy),通过node来维护,broadcaster来传topic，</p>
+<p>TF TREE(消息的格式规范：TransformStamped.msg)</p>
+<h2 id="urdf"><a href="#urdf" class="headerlink" title="urdf"></a>urdf</h2><p>定义机器人的结构，本质上是个解析器，定义在urdf文件昂</p>
+<p>link:零部件关节(XYZ)</p>
+<p>joint：link之前的连接关系(与/tf对应)</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_233707_54.png" alt="20191029_233707_54"></p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_234536_36.png" alt="20191029_234536_36"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191029_235242_20.png" alt="20191029_235242_20"></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/23/Life of a Freshfish/One Week In Beijing---Running_Robot/" rel="next" title="One Week In Beijing---Running_Robot">
+                  <i class="fa fa-chevron-left"></i> One Week In Beijing---Running_Robot
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/11/09/Opencv/opencv/" rel="prev" title="opencv">
+                  opencv <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#catkin工作结构"><span class="nav-number">1.</span> <span class="nav-text">catkin工作结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#catkin-make功能"><span class="nav-number">2.</span> <span class="nav-text">catkin_make功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package"><span class="nav-number">3.</span> <span class="nav-text">package</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义通信格式"><span class="nav-number">4.</span> <span class="nav-text">自定义通信格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#launch以及配置文件"><span class="nav-number">5.</span> <span class="nav-text">launch以及配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的一些package指令"><span class="nav-number">6.</span> <span class="nav-text">常用的一些package指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metapackage"><span class="nav-number">7.</span> <span class="nav-text">metapackage</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通信架构"><span class="nav-number"></span> <span class="nav-text">通信架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Master"><span class="nav-number">1.</span> <span class="nav-text">Master</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node"><span class="nav-number">2.</span> <span class="nav-text">Node</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通信方式"><span class="nav-number"></span> <span class="nav-text">通信方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#topic"><span class="nav-number"></span> <span class="nav-text">topic</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Message"><span class="nav-number">1.</span> <span class="nav-text">Message</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#service"><span class="nav-number"></span> <span class="nav-text">service</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#srv"><span class="nav-number">1.</span> <span class="nav-text">srv</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#parameter-service"><span class="nav-number"></span> <span class="nav-text">parameter_service</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#命令行"><span class="nav-number">1.</span> <span class="nav-text">命令行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#launch文件"><span class="nav-number">2.</span> <span class="nav-text">launch文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Action"><span class="nav-number"></span> <span class="nav-text">Action</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#action"><span class="nav-number">1.</span> <span class="nav-text">action</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rosbag"><span class="nav-number"></span> <span class="nav-text">rosbag</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Client-Library"><span class="nav-number"></span> <span class="nav-text">Client Library</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#roscpp"><span class="nav-number"></span> <span class="nav-text">roscpp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rospy"><span class="nav-number"></span> <span class="nav-text">rospy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TF"><span class="nav-number"></span> <span class="nav-text">TF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#urdf"><span class="nav-number"></span> <span class="nav-text">urdf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-number"></span> <span class="nav-text">Map</span></a></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/22.png"
+      alt="狗仔源">
+  <p class="site-author-name" itemprop="name">狗仔源</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:530738743@qq.com" title="E-Mail &rarr; mailto:530738743@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">狗仔源</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">72k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:05</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '3fd967d31c63d255d193',
+      clientSecret: 'b8ead67458a8526ad97a04eb9a872c28c8ec09ff',
+      repo: 'BelongComments',
+      owner: 'Belong34',
+      admin: ['Belong34'],
+      id: '51344caa935fc5f2f9e8b7706e8212a8',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":0,"vOffset":20},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

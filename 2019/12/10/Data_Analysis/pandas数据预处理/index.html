@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="很多时候，模型的准确率卡在某一范围内，不一定就是网络的结构问题，更多时候是数据预处理的问题。那么如何用有限的数据做到更多的价值呢？我们从泰坦尼克号问题入手,去运用一些知识解决数据预处理的问题。 数据预览123456789101112131415161718The shape of the train data is (row, column):(891, 12)&amp;lt;class &amp;apos;pa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据预处理">
+<meta property="og:url" content="Belong34.github.io/2019/12/10/Data_Analysis/pandas数据预处理/index.html">
+<meta property="og:site_name" content="Renegades">
+<meta property="og:description" content="很多时候，模型的准确率卡在某一范围内，不一定就是网络的结构问题，更多时候是数据预处理的问题。那么如何用有限的数据做到更多的价值呢？我们从泰坦尼克号问题入手,去运用一些知识解决数据预处理的问题。 数据预览123456789101112131415161718The shape of the train data is (row, column):(891, 12)&amp;lt;class &amp;apos;pa">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_163403_40.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_163420_71.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_164253_54.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_164559_79.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_170953_94.png">
+<meta property="og:updated_time" content="2020-05-09T14:45:49.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据预处理">
+<meta name="twitter:description" content="很多时候，模型的准确率卡在某一范围内，不一定就是网络的结构问题，更多时候是数据预处理的问题。那么如何用有限的数据做到更多的价值呢？我们从泰坦尼克号问题入手,去运用一些知识解决数据预处理的问题。 数据预览123456789101112131415161718The shape of the train data is (row, column):(891, 12)&amp;lt;class &amp;apos;pa">
+<meta name="twitter:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_163403_40.png">
+  <link rel="canonical" href="Belong34.github.io/2019/12/10/Data_Analysis/pandas数据预处理/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>数据预处理 | Renegades</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Renegades</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="Belong34.github.io/2019/12/10/Data_Analysis/pandas数据预处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="狗仔源">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/22.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renegades">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            数据预处理
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-10 23:00:42" itemprop="dateCreated datePublished" datetime="2019-12-10T23:00:42+08:00">2019-12-10</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-09 22:45:49" itemprop="dateModified" datetime="2020-05-09T22:45:49+08:00">2020-05-09</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Analysis/" itemprop="url" rel="index">
+                    <span itemprop="name">Data_Analysis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>2.3k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>2 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>很多时候，模型的准确率卡在某一范围内，不一定就是网络的结构问题，更多时候是数据预处理的问题。那么如何用有限的数据做到更多的价值呢？我们从泰坦尼克号问题入手,去运用一些知识解决数据预处理的问题。</p>
+<h3 id="数据预览"><a href="#数据预览" class="headerlink" title="数据预览"></a>数据预览</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">The shape of the train data is (row, column):(891, 12)</span><br><span class="line">&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;</span><br><span class="line">RangeIndex: 891 entries, 0 to 890</span><br><span class="line">Data columns (total 12 columns):</span><br><span class="line">PassengerId    891 non-null int64</span><br><span class="line">Survived       891 non-null int64</span><br><span class="line">Pclass         891 non-null int64</span><br><span class="line">Name           891 non-null object</span><br><span class="line">Sex            891 non-null object</span><br><span class="line">Age            714 non-null float64</span><br><span class="line">SibSp          891 non-null int64</span><br><span class="line">Parch          891 non-null int64</span><br><span class="line">Ticket         891 non-null object</span><br><span class="line">Fare           891 non-null float64</span><br><span class="line">Cabin          204 non-null object</span><br><span class="line">Embarked       889 non-null object</span><br><span class="line">dtypes: float64(2), int64(5), object(5)</span><br><span class="line">memory usage: 83.6+ KB</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_163403_40.png" alt="20191222_163403_40"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_163420_71.png" alt="20191222_163420_71"></p>
+<p>主要存在几个问题：缺失值，分类特征，字母，数字，文本特征，有用VS无用信息？接下来我们一一解决他们！</p>
+<h3 id="缺失值"><a href="#缺失值" class="headerlink" title="缺失值"></a>缺失值</h3><h4 id="Embarked"><a href="#Embarked" class="headerlink" title="Embarked"></a>Embarked</h4><p>首先是Embarked(登船港口),存在两个Nan，我们通过分析他们的共同属性来填写缺失的信息</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_164253_54.png" alt="20191222_164253_54"><br>我们可以看到，他们同样是女性，Cabin，Fare，Pclass，Ticket也一样，是同样的票，这么来说，我们就去找有类似特征的童鞋就好了。这里从Pclass和Fare出发(听起来比较有相关性)</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_164559_79.png" alt="20191222_164559_79"><br>很容易确定 Embarked就是C了</p>
+<h4 id="Cabin"><a href="#Cabin" class="headerlink" title="Cabin"></a>Cabin</h4><p>接下来是大头Cabin，竟然丢失了四分之三的信息，这时候就是抉择了，到底是drop掉他呢，还是说找到规律利用他。我们选择后者，因为这个东西实在是太有用了，船舱的位置和生存与否听起来就很相关。当然，我们不能放弃他。<br>首先，我们看得出来船舱的编号很乱，就像我们火车编号一样，这样实在是难分类，所以决定把字母后面的数字去掉，一般来说字母同样就代表着大家的位置也是差不多的。然后，我们联系下实际生活，像我们平时搭飞机也有分头等舱，经济舱这样的。那我们是不是就可以根据票价去做一些划分呢。然后就算出了平均值，根据平均值来分配船舱哈~</p>
+<h4 id="Fare"><a href="#Fare" class="headerlink" title="Fare"></a>Fare</h4><p>然后就是票价了，这个只有一个人，同Embarked，我们找关系。不难发现，我们更具阶级，船舱位置，以及性别做划分(别问我为什么不用Cabin，因为没有这位同志了。。)</p>
+<h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><p>然后是年龄，这个也丢了好多信息。通常来说，可以用均值，中位数，去填，但是这样子就缺失了很多信息，我们要相信自己能找到蛛丝马迹。好吧，说实话有点难找。但是，在这块数字信息上的处理有个更常用的做法，随机森林。就是他啦。</p>
+<h3 id="分析分析分析！"><a href="#分析分析分析！" class="headerlink" title="分析分析分析！"></a>分析分析分析！</h3><p>这个是很重要的一点，我们要发挥自己的脑洞，找到特征与特征的一些蛛丝马迹。甚至能看到，当时船上的一些黑暗。。。哦那个过seaborn，maplotlib画图，我们可以分析出很多东西，例如票价可能和阶级有关，头等舱，女性，儿童都比较容易生还，票价低于100的大多没能生还，也存在着票价异常高的存在(删除or保留？),有配偶的容易生还，大家庭的不容易生还。</p>
+<h3 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h3><p>有了一些先验知识，接下来，我们就带着这些先验知识以及疑问去做统计。这里存在几个名词</p>
+<h4 id="相关矩阵"><a href="#相关矩阵" class="headerlink" title="相关矩阵"></a>相关矩阵</h4><p>相关矩阵表明了特征与特征之间的关系，往往这些相关性能带给我们一些灵感<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20191222_170953_94.png" alt="20191222_170953_94"></p>
+<h4 id="统计检验"><a href="#统计检验" class="headerlink" title="统计检验"></a>统计检验</h4><p>统计检验亦称“假设检验”。根据抽样结果，在一定可靠性程度上对一个或多个总体分布的原假设作出拒绝还是不拒绝（予以接受）结论的程序。决定常取决于样本统计量的数值与所假设的总体参数是否有显著差异。这时称差异显著性检验。检验的推理逻辑为具有概率性质的反证法。例如，在参数假设检验中，当对总体分布的参数作出原假设 H0 后，先承认总体与原假设相同， 然后根据样本计算一个统计量，并求出该统计量的分布，再给定一个小概率（一般为 0.05，0.01 等，视情况而定），确定拒绝原假设 H0 的区域（拒绝域）。</p>
+<p>大白话就是，我们将我们的想法提出来，然后做假设检验，去判断我们的想法正不正确。例如生还率和性别有着很大关系。</p>
+<h3 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h3><p>两个方向：删掉没意义的，创造有意义的</p>
+<h4 id="姓名长度"><a href="#姓名长度" class="headerlink" title="姓名长度"></a>姓名长度</h4><p>name是文本，直接用的话很难分类。所以我们就根据长度做划分。</p>
+<h4 id="称呼词"><a href="#称呼词" class="headerlink" title="称呼词"></a>称呼词</h4><p>Mrs，Miss，Dr…..称呼词，可以映射出来这个人是不是婚姻状况，性别，知识水平，职业等等等等。这里简单起见，因为我们之前已经做过了一个成功的性别的假设检验，我们就分为男性，女性，其他</p>
+<h4 id="家庭人数"><a href="#家庭人数" class="headerlink" title="家庭人数"></a>家庭人数</h4><p>把父母/子女/兄弟姐妹/配偶一起计算进来做个家庭人数的划分，因为上面已经看出了家庭与生还率的相关性</p>
+<h4 id="独自一人？"><a href="#独自一人？" class="headerlink" title="独自一人？"></a>独自一人？</h4><p>这个不用多说</p>
+<h4 id="票号"><a href="#票号" class="headerlink" title="票号"></a>票号</h4><p>票号，每个人都不一样难以做分类以及管理，且看起来好像没太大关系，drop掉</p>
+<h4 id="家庭票"><a href="#家庭票" class="headerlink" title="家庭票"></a>家庭票</h4><p>在统计阶段存在的那个很贵的票可以分析出来是类似家庭票的东西， 所以我们把票价处于家庭人数求出单独的票价</p>
+<h4 id="票价"><a href="#票价" class="headerlink" title="票价"></a>票价</h4><p>票价分桶，方便分类管理</p>
+<h4 id="id"><a href="#id" class="headerlink" title="id"></a>id</h4><p>没啥关系删掉</p>
+<h4 id="年龄"><a href="#年龄" class="headerlink" title="年龄"></a>年龄</h4><p>年龄分桶，方便分类管理</p>
+<h3 id="在所有搞定之后"><a href="#在所有搞定之后" class="headerlink" title="在所有搞定之后"></a>在所有搞定之后</h3><p>我们就把分析完的没有利用价值的变量drop掉，然后生成onehot编码，归一化，划分测试验证训练集，就可以开始我们的Model之旅啦。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/25/Deeping_learning/bilibili-mooc-tensorflow2-0/" rel="next" title="mooc-tensorflow2.0">
+                  <i class="fa fa-chevron-left"></i> mooc-tensorflow2.0
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/02/11/Deeping_learning/深度学习14天笔记/" rel="prev" title="深度学习14天笔记">
+                  深度学习14天笔记 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预览"><span class="nav-number">1.</span> <span class="nav-text">数据预览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺失值"><span class="nav-number">2.</span> <span class="nav-text">缺失值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Embarked"><span class="nav-number">2.1.</span> <span class="nav-text">Embarked</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cabin"><span class="nav-number">2.2.</span> <span class="nav-text">Cabin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fare"><span class="nav-number">2.3.</span> <span class="nav-text">Fare</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Age"><span class="nav-number">2.4.</span> <span class="nav-text">Age</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析分析分析！"><span class="nav-number">3.</span> <span class="nav-text">分析分析分析！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计"><span class="nav-number">4.</span> <span class="nav-text">统计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关矩阵"><span class="nav-number">4.1.</span> <span class="nav-text">相关矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计检验"><span class="nav-number">4.2.</span> <span class="nav-text">统计检验</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征工程"><span class="nav-number">5.</span> <span class="nav-text">特征工程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#姓名长度"><span class="nav-number">5.1.</span> <span class="nav-text">姓名长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#称呼词"><span class="nav-number">5.2.</span> <span class="nav-text">称呼词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#家庭人数"><span class="nav-number">5.3.</span> <span class="nav-text">家庭人数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#独自一人？"><span class="nav-number">5.4.</span> <span class="nav-text">独自一人？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#票号"><span class="nav-number">5.5.</span> <span class="nav-text">票号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#家庭票"><span class="nav-number">5.6.</span> <span class="nav-text">家庭票</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#票价"><span class="nav-number">5.7.</span> <span class="nav-text">票价</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-number">5.8.</span> <span class="nav-text">id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#年龄"><span class="nav-number">5.9.</span> <span class="nav-text">年龄</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在所有搞定之后"><span class="nav-number">6.</span> <span class="nav-text">在所有搞定之后</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/22.png"
+      alt="狗仔源">
+  <p class="site-author-name" itemprop="name">狗仔源</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:530738743@qq.com" title="E-Mail &rarr; mailto:530738743@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">狗仔源</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">72k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:05</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '3fd967d31c63d255d193',
+      clientSecret: 'b8ead67458a8526ad97a04eb9a872c28c8ec09ff',
+      repo: 'BelongComments',
+      owner: 'Belong34',
+      admin: ['Belong34'],
+      id: '98837a11ca4ee3225a693c911b8ef278',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":0,"vOffset":20},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

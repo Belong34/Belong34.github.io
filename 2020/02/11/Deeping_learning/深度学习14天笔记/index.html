@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="此为深度学习14天笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习14天笔记">
+<meta property="og:url" content="Belong34.github.io/2020/02/11/Deeping_learning/深度学习14天笔记/index.html">
+<meta property="og:site_name" content="Renegades">
+<meta property="og:description" content="此为深度学习14天笔记">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164700_28.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164737_90.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171923_70.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172003_57.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172338_51.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171817_87.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171802_30.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_130921_48.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_174800_90.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175008_55.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175040_17.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_181810_75.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_152234_78.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_155504_17.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_155545_24.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_230626_82.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200215_111326_52.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200216_165423_45.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200217_174208_72.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200217_174143_47.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200217_174638_11.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200217_174651_30.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_103050_22.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_103456_89.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_105640_77.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_155431_26.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_161051_74.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_221156_16.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_120316_24.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_175817_29.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_175934_97.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_180228_22.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_180526_70.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_180846_79.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_180921_53.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_115930_40.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_122546_99.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_124202_56.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_170354_48.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_170442_17.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_171004_28.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_134433_35.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_135223_92.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/MyImageStore/Image/20200225_135846_15.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/MyImageStore/Image/20200225_140038_40.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_165340_13.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_165615_19.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_170424_64.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_171831_78.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_173305_90.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_203821_94.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_203848_17.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_204616_16.png">
+<meta property="og:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_204710_78.png">
+<meta property="og:updated_time" content="2020-05-09T14:45:56.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习14天笔记">
+<meta name="twitter:description" content="此为深度学习14天笔记">
+<meta name="twitter:image" content="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png">
+  <link rel="canonical" href="Belong34.github.io/2020/02/11/Deeping_learning/深度学习14天笔记/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>深度学习14天笔记 | Renegades</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Renegades</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="Belong34.github.io/2020/02/11/Deeping_learning/深度学习14天笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="狗仔源">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/22.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renegades">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            深度学习14天笔记
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-11 15:39:12" itemprop="dateCreated datePublished" datetime="2020-02-11T15:39:12+08:00">2020-02-11</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-09 22:45:56" itemprop="dateModified" datetime="2020-05-09T22:45:56+08:00">2020-05-09</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deeping-learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deeping_learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>18k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>17 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>此为深度学习14天笔记</p>
+<a id="more"></a>
+<h1 id="Task-1"><a href="#Task-1" class="headerlink" title="Task 1"></a>Task 1</h1><h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>线性回归-&gt;连续值的预测</p>
+<h3 id="训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><a href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN" class="headerlink" title="训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)"></a>训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</h3><p>假定我们确定了使用的模型，紧接着我们就需要利用训练集的数据，将模型的一些参数(也就是权重和偏置)通过这部分数据来训练出来。</p>
+<p>然后，我们还有超参数需要调参！针对这些超参数，我们则需要通过验证集训练出来，但是不能用训练集的数据(此时我们的所有模型都是训练集训练出来的效果当然好),我们使用到了验证集。</p>
+<p>最后，当我们通过以上两部确定了这个模型的网络结构之后，我们则需要利用测试集来检验我们的模型怎么样。 如果结果不怎么样，通常来说可能是之前的模型选择的不怎么样(尽管它已经是各类超参数选择下的最好的一个了)。</p>
+<p>几点经验：</p>
+<ul>
+<li>关于比例：通常来说是6：2：2，主要还是需要视情况而定，这方面的研究也有很多，如果你想要知道我们在设置比例的时候应当参考那些东西，可以去看Isabelle Guyon的这篇论文：A scaling law for the validation-set training-set size ratio 。他的个人主页（<a href="http://www.clopinet.com/isabelle/）里也展示了他对于这个问题的研究。" target="_blank" rel="noopener">http://www.clopinet.com/isabelle/）里也展示了他对于这个问题的研究。</a></li>
+<li>关于数据：当数据量过少的时候，可以从几个角度出发：数据增强，数据重合。这方面的研究就更多了，各种交叉方法，感兴趣的话可以去看Filzmoser这一篇文章Repeated double cross validation</li>
+<li>关于预处理：当你进行了数据预处理之后，如果是对训练集做了预处理，再验证集和测试集上的处理也必须是同训练集的预处理相同。</li>
+</ul>
+<h3 id="数值解-Vs-解析解"><a href="#数值解-Vs-解析解" class="headerlink" title="数值解 Vs 解析解"></a>数值解 Vs 解析解</h3><p>两者求解方法不同，前者是通过一些优化算法迭代求解，后者是通过一些公式表示。但是实际上，深度学习模型一是难以通过公式表示，而是表示出来的公式很复杂，例如求解的公式很长，且有很多求导啊，乘法这些耗费计算资源。如此比较，从计算时间，计算资源，前者更适合这个领域，当然其得到的结果的偏差也会受到一些因素影响(超参数)。</p>
+<p>数值解是在特定条件下通过近似计算得出来的一个数值，而解析解为该函数的解析式。数值解就是用数值方法求出解，给出一系列对应的自变量和解。</p>
+<h3 id="pytorch学习"><a href="#pytorch学习" class="headerlink" title="pytorch学习"></a>pytorch学习</h3><h4 id="data"><a href="#data" class="headerlink" title=".data"></a>.data</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param.data -= lr * param.grad / batch_size # use .data to operate param without gradient track</span><br></pre></td></tr></table></figure>
+
+<p>在定义优化函数的时候，需要加上.data，理由是带有自动求导属性的变量(requires_grad)不能进行赋值操作。</p>
+<h4 id="pytorch自动求导"><a href="#pytorch自动求导" class="headerlink" title="pytorch自动求导"></a>pytorch自动求导</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">w = torch.tensor(np.random.normal(0, 0.01, (num_inputs, 1)), dtype=torch.float32)</span><br><span class="line">b = torch.zeros(1, dtype=torch.float32)   # 值得注意的是自动求导针对的tensor属性需是浮点型</span><br><span class="line">w.requires_grad_(requires_grad=True)     # requires_grad 代表自动求导的属性</span><br><span class="line">b.requires_grad_(requires_grad=True)</span><br></pre></td></tr></table></figure>
+
+<p>但是，有时候我们可能会有多个输出值，比如loss=[loss1,loss2,loss3]，那么我们可以让loss的各个分量分别对x求导，这个时候就采用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss.backward(torch.tensor([[1.0,1.0,1.0,1.0]]))</span><br></pre></td></tr></table></figure>
+
+<p>如果你想让不同的分量有不同的权重，那么就赋予gradients不一样的值即可，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss.backward(torch.tensor([[0.1,1.0,10.0,0.001]]))</span><br></pre></td></tr></table></figure>
+
+<p>warning：</p>
+<ul>
+<li>PyTorch里面，求导是调用.backward()方法。直接调用backward()方法，会计算对计算图叶节点的导数。</li>
+<li>求导，只能是【标量】对标量，或者【标量】对向量/矩阵求导！</li>
+<li>.backward()方法是对将所有影响loss的tensor都求了次梯度,如果不想全部tensor都求梯度，可以通过requires_grad属性进行操作排除子图，这个属性的运算相当于或运算</li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200211_223033_97.png" alt="20200211_223033_97"></p>
+<p>详情：<a href="https://www.jianshu.com/p/a105858567df" target="_blank" rel="noopener">https://www.jianshu.com/p/a105858567df</a></p>
+<h4 id="DataLoader"><a href="#DataLoader" class="headerlink" title="DataLoader"></a>DataLoader</h4><p>读取数据集的一个对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">dataset(Dataset): 传入的数据集</span><br><span class="line">batch_size(int, optional): 每个batch有多少个样本</span><br><span class="line">shuffle(bool, optional): 在每个epoch开始的时候，对数据进行重新排序</span><br><span class="line">sampler(Sampler, optional): 自定义从数据集中取样本的策略，如果指定这个参数，那么shuffle必须为False</span><br><span class="line">batch_sampler(Sampler, optional): 与sampler类似，但是一次只返回一个batch的indices（索引），需要注意的是，一旦指定了这个参数，那么batch_size,shuffle,sampler,drop_last就不能再制定了（互斥——Mutually exclusive）</span><br><span class="line">num_workers (int, optional): 这个参数决定了有几个进程来处理data loading。0意味着所有的数据都会被load进主进程。（默认为0）</span><br><span class="line">collate_fn (callable, optional): 将一个list的sample组成一个mini-batch的函数</span><br><span class="line">pin_memory (bool, optional)： 如果设置为True，那么data loader将会在返回它们之前，将tensors拷贝到CUDA中的固定内存（CUDA pinned memory）中.</span><br><span class="line"></span><br><span class="line">drop_last (bool, optional): 如果设置为True：这个是对最后的未完成的batch来说的，比如你的batch_size设置为64，而一个epoch只有100个样本，那么训练的时候后面的36个就被扔掉了…</span><br><span class="line">如果为False（默认），那么会继续正常执行，只是最后的batch_size会小一点。</span><br><span class="line"></span><br><span class="line">timeout(numeric, optional): 如果是正数，表明等待从worker进程中收集一个batch等待的时间，若超出设定的时间还没有收集到，那就不收集这个内容了。这个numeric应总是大于等于0。默认为0</span><br><span class="line">worker_init_fn (callable, optional): 每个worker初始化函数 If not None, this will be called on each</span><br><span class="line">worker subprocess with the worker id (an int in [0, num_workers - 1]) as</span><br><span class="line">input, after seeding and before data loading. (default: None)</span><br></pre></td></tr></table></figure>
+
+<p>详情：<a href="https://www.cnblogs.com/ranjiewen/p/10128046.html" target="_blank" rel="noopener">https://www.cnblogs.com/ranjiewen/p/10128046.html</a></p>
+<h4 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h4><p>遵循以下情况之一</p>
+<ul>
+<li><p>数组维度不同，后缘维度的轴长相符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">arr1 = np.array([[0, 0, 0],[1, 1, 1],[2, 2, 2], [3, 3, 3]])  #arr1.shape = (4,3)</span><br><span class="line">arr2 = np.array([1, 2, 3])    #arr2.shape = (3,)</span><br><span class="line">arr_sum = arr1 + arr2</span><br><span class="line">print(arr_sum)</span><br><span class="line"></span><br><span class="line">输入结果如下:</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">[[1 2 3]</span><br><span class="line"> [2 3 4]</span><br><span class="line">[3 4 5]</span><br><span class="line">[4 5 6]]</span><br><span class="line">&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组维度相同，其中有个轴为1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">arr1 = np.array([[0, 0, 0],[1, 1, 1],[2, 2, 2], [3, 3, 3]])  #arr1.shape = (4,3)</span><br><span class="line">arr2 = np.array([[1],[2],[3],[4]])    #arr2.shape = (4, 1)</span><br><span class="line"></span><br><span class="line">arr_sum = arr1 + arr2</span><br><span class="line">print(arr_sum)</span><br><span class="line"></span><br><span class="line">输出结果如下：</span><br><span class="line">[[1 1 1]</span><br><span class="line"> [3 3 3]</span><br><span class="line"> [5 5 5]</span><br><span class="line"> [7 7 7]]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="softmax"><a href="#softmax" class="headerlink" title="softmax"></a>softmax</h2><p>离散值的预测。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164700_28.png" alt="20200212_164700_28"></p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_164737_90.png" alt="20200212_164737_90"></p>
+<h3 id="为啥使用指数函数？"><a href="#为啥使用指数函数？" class="headerlink" title="为啥使用指数函数？"></a>为啥使用指数函数？</h3><p>取决于误差存在所服从的分布，softmax回归是在误差服从多项式分布的基础上推导而来的。</p>
+<p>softmax公式的得出方法大概解释可以解释为：<br>首先假设样本与理论标准函数的误差（类似于线性回归那一章中生成数据时叠加上的高斯误差）服从正态分布（高斯分布），并且不同样本之间独立同分布，<br>通过贝叶斯公式计算各个分类的概率，将高斯分布的公式带入公式之后化简得到。<br>在一些地方softmax函数又被称为归一化指数（normalized exponential）</p>
+<div style="text-align: right"> By Lee  </div>
+
+<p>在实际使用下，还会利用softmax的常数不变性，减去一一个常数，以防止指数爆炸,保证数值稳定性。</p>
+<h3 id="交叉熵-Vs-均方误差"><a href="#交叉熵-Vs-均方误差" class="headerlink" title="交叉熵 Vs 均方误差"></a>交叉熵 Vs 均方误差</h3><p>均方误差：<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171923_70.png" alt="20200212_171923_70"></p>
+<p>交叉熵：<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172003_57.png" alt="20200212_172003_57"></p>
+<ul>
+<li><p>在分类问题的情况下，同时处理one-hot编码后的标签，交叉熵只关注正确标签的概率</p>
+</li>
+<li><p>均方误差在权值更新的时候，与激活函数的梯度有关，如果梯度比较平缓的时候，梯度更新的速度会很慢，交叉熵与预测值和实际值误差有关，差距越大，速度越快。因此交叉熵的计算效率也比较高。</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_172338_51.png" alt="20200212_172338_51"></p>
+<ul>
+<li>均方误差存在局部最优解，交叉熵效果较好<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171817_87.png" alt="20200212_171817_87"></li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200212_171802_30.png" alt="20200212_171802_30"></p>
+<p>Reference：<a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/35709485</a></p>
+<p><a href="https://www.cnblogs.com/aijianiula/p/9651879.html" target="_blank" rel="noopener">https://www.cnblogs.com/aijianiula/p/9651879.html</a></p>
+<h3 id="pytorch-学习"><a href="#pytorch-学习" class="headerlink" title="pytorch 学习"></a>pytorch 学习</h3><h4 id="torchvision"><a href="#torchvision" class="headerlink" title="torchvision"></a>torchvision</h4><p>服务于计算机视觉模型的包，由以下几部分构成</p>
+<ul>
+<li>datasets：加载数据集的函数以及一些数据集的接口</li>
+<li>models：常用的模型结构(包括预训练模型)</li>
+<li>transforms：常用的图片变换</li>
+<li>utils：其他有用的方法</li>
+</ul>
+<h2 id="多层感知机"><a href="#多层感知机" class="headerlink" title="多层感知机"></a>多层感知机</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_130921_48.png" alt="20200213_130921_48"></p>
+<p>如图，在前面的线性神经网络中加入了隐藏层，虽然加入了隐藏层，但因为，从输入到隐藏层，再从隐含层到输出层都仍是线性的网络结构，效果上仍然是与仅含输出层的单层神经网络等价，所以这里需要引入激活函数，以增加非线性的变换。</p>
+<p>激活函数的相关总结见以前的总结：<a href="https://belong34.github.io/2019/11/23/keras-layers-Dense/" target="_blank" rel="noopener">https://belong34.github.io/2019/11/23/keras-layers-Dense/</a></p>
+<h1 id="Task-2"><a href="#Task-2" class="headerlink" title="Task 2"></a>Task 2</h1><h2 id="文本预处理"><a href="#文本预处理" class="headerlink" title="文本预处理"></a>文本预处理</h2><p>文本是一类序列数据，通常预处理最基本的几个步骤</p>
+<ul>
+<li>读入文本(这里需要对文本做一些基本处理，例如：去掉每行首尾的一些空格，一些奇怪的字符等等)</li>
+<li>分词(分词的级别也要视情况而定词语or单词？)<br>这里也有一些继承好的分词方案：spaCy和NLTK</li>
+<li>建立词典，将每一个词映射到一个唯一的索引(index)<br>去重<br>受词频限制，有些出现次数比较少的可以忽略<br>根据需要保留一些特殊的标记，如句首，句尾，不认识的词，还有补全词。</li>
+<li>将文本从词的序列转换为索引的序列，方便输入模型</li>
+</ul>
+<h3 id="re正则表达式库"><a href="#re正则表达式库" class="headerlink" title="re正则表达式库"></a>re正则表达式库</h3><p>这里只是点出几个常用函数，具体学习等有需要的时候再做补充</p>
+<ul>
+<li>re.compile：compile 函数用于编译正则表达式，生成一个正则表达式（ Pattern ）对象，供 match() 和 search() 这两个函数使用。</li>
+<li>re.match：只匹配字符串的开始。尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none</li>
+<li>re.search：匹配整个字符串。扫描整个字符串，并返回第一个成功的匹配。</li>
+<li>re.sub：re.sub用于替换字符串中的匹配项。</li>
+<li>re.findall：findall函数：在字符串中找到正则表达式所匹配的所有子串，并返回一个列表。</li>
+</ul>
+<p>reference：<a href="https://blog.csdn.net/qq_41185868/article/details/96422320" target="_blank" rel="noopener">https://blog.csdn.net/qq_41185868/article/details/96422320</a></p>
+<h2 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_174800_90.png" alt="20200213_174800_90"></p>
+<p>目标：给定一段序列，评估该序列是否合理(计算该序列的概率)</p>
+<h3 id="n元语法"><a href="#n元语法" class="headerlink" title="n元语法"></a>n元语法</h3><p>基于n-1阶马尔可夫链，将语言模型改写成</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175008_55.png" alt="20200213_175008_55"><br>当n=1，2，3时</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_175040_17.png" alt="20200213_175040_17"></p>
+<h4 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h4><ul>
+<li>参数空间过大 ： 参数的多少时随着n的增大呈指数倍增长的</li>
+<li>数据稀疏 ：<br>齐夫定律(也就是说随着词频表的排名下降，词频的减少是按倍数减少的)<br>大部分词频都很小，往往连续的三四个字连成的词出现的词频也很小，可以用bigram、trigram等词袋模型解决<br>而且词频最高的是停滞词(and，or)可以用tf-idf优化</li>
+</ul>
+<h3 id="序列模型的采样"><a href="#序列模型的采样" class="headerlink" title="序列模型的采样"></a>序列模型的采样</h3><p>如果将所有的样本都拿来使用，这些样本就会有大量的重合，降低计算的效率，所以采样方法很重要，以下两种采样方式(引用小罗同学的图图)：</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200213_181810_75.png" alt="20200213_181810_75"></p>
+<h2 id="循环神经网络基础"><a href="#循环神经网络基础" class="headerlink" title="循环神经网络基础"></a>循环神经网络基础</h2><h3 id="RNN概述"><a href="#RNN概述" class="headerlink" title="RNN概述"></a>RNN概述</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_152234_78.png" alt="20200214_152234_78"><br>Whh是隐藏状态矩阵，可以理解为类似马尔可夫链的概率转移矩阵</p>
+<h3 id="梯度爆炸和梯度消失"><a href="#梯度爆炸和梯度消失" class="headerlink" title="梯度爆炸和梯度消失"></a>梯度爆炸和梯度消失</h3><p>随着网络深度增加，梯度不断的乘乘乘乘乘乘乘，会出现梯度爆炸或者梯度消失。针对于梯度爆炸，可以使用梯度裁剪解决。</p>
+<p>如果梯度爆炸，会导致训练不稳定和不收敛，如果去掉如果这句话，我们一般可以通过降低学习率，来调整训练。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_155504_17.png" alt="20200214_155504_17"></p>
+<p>L2范数是指向量各元素的平方和然后求平方根</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_155545_24.png" alt="20200214_155545_24"></p>
+<p>其实梯度裁剪也是一个道理，都是在梯度上乘上一个数。</p>
+<h3 id="困惑度"><a href="#困惑度" class="headerlink" title="困惑度"></a>困惑度</h3><p>通常使用困惑度（perplexity）来评价一个语言模型的好坏，句子概率越大，语言模型越好，迷惑度越小，困惑度是对交叉熵损失函数做指数运算后得到的值。</p>
+<ul>
+<li>最佳情况下，模型总是把标签类别的概率预测为1，此时困惑度为1；</li>
+<li>最坏情况下，模型总是把标签类别的概率预测为0，此时困惑度为正无穷；</li>
+<li>基线情况下，模型总是预测所有类别的概率都相同，此时困惑度为类别个数。<br>显然，任何一个有效模型的困惑度必须小于类别个数。</li>
+</ul>
+<h3 id="关于隐藏状态的初始化"><a href="#关于隐藏状态的初始化" class="headerlink" title="关于隐藏状态的初始化"></a>关于隐藏状态的初始化</h3><p>在相邻采样中，第一个batch的隐藏状态初始化一次，后续batch中的第一个隐藏状态需要detach(从计算图中分离隐藏状态)。在相邻采样的时候，每个batch是相连的。如果不detach，即后一个batch的第一个隐藏状态和上一个batch的最后一个隐藏状态连在一起，那么在反向传播的时候，这个链式求导的过程会非常长，计算开销会特别大。detach后，requires_grad=False，这个链到此为止。</p>
+<p>至于随机采样，每个batch都需要初始化一次，因为每个样本包含完整的时间序列信息。</p>
+<h1 id="Task-3"><a href="#Task-3" class="headerlink" title="Task 3"></a>Task 3</h1><h2 id="过拟合、欠拟合及其解决方案"><a href="#过拟合、欠拟合及其解决方案" class="headerlink" title="过拟合、欠拟合及其解决方案"></a>过拟合、欠拟合及其解决方案</h2><h3 id="训练误差和泛化误差"><a href="#训练误差和泛化误差" class="headerlink" title="训练误差和泛化误差"></a>训练误差和泛化误差</h3><p>通俗来讲，前者指模型在训练数据集上表现出的误差，后者指模型在任意一个测试数据样本上表现出的误差的期望，并常常通过测试数据集上的误差来近似。计算训练误差和泛化误差可以使用之前介绍过的损失函数，例如线性回归用到的平方损失函数和softmax回归用到的交叉熵损失函数。</p>
+<p>机器学习模型应关注降低泛化误差。</p>
+<h3 id="模型选择"><a href="#模型选择" class="headerlink" title="模型选择"></a>模型选择</h3><p>模型选择即是如何选择模型及其对应的超参数，存在一个问题就是，我们如果要降低泛化误差，在训练数据集上不能做到从训练误差估计泛化误差，而测试数据集的超参数及模型参数又都是唯一的。所以引入两个模型选择的方法。分别是验证数据集和K折交叉验证</p>
+<h3 id="欠拟合"><a href="#欠拟合" class="headerlink" title="欠拟合"></a>欠拟合</h3><ul>
+<li>模型不够复杂，可以更换模型或增加模型的复杂度</li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200214_230626_82.png" alt="20200214_230626_82"></p>
+<h3 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h3><ul>
+<li>模型过于复杂</li>
+<li>数据集过小，增加训练样本</li>
+<li>权重衰减</li>
+<li>dropout(实际操作中，对于未被dropout的那部分期望会除于其概率，以保证输入的期望不变)</li>
+</ul>
+<h3 id="权重衰减"><a href="#权重衰减" class="headerlink" title="权重衰减"></a>权重衰减</h3><p>权重衰减即L2正则化，也叫岭回归(参数模型变成山岭倒过来，便于梯度下降求到最小值)</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200215_111326_52.png" alt="20200215_111326_52"></p>
+<ul>
+<li>L1正则化是指权值向量ww中各个元素的绝对值之和，通常表示为∣∣w∣∣1​：J=J0​+αw∑​∣w∣</li>
+<li>L2正则化是指权值向量ww中各个元素的平方和然后再求平方根（可以看到Ridge回归的L2正则化项有平方符号），通常表示为∣∣w∣∣2。λ越大，θjθj​衰减得越快：J=J0​+αw∑​w2</li>
+</ul>
+<p>作用分别为：</p>
+<ul>
+<li>L1正则化可以产生稀疏权值矩阵，即产生一个稀疏模型，可以用于特征选择</li>
+<li>L2正则化可以防止模型过拟合（overfitting）；一定程度上，L1也可以防止过拟合</li>
+</ul>
+<p>为什么呢？请看：<a href="https://blog.csdn.net/jinping_shi/article/details/52433975" target="_blank" rel="noopener">https://blog.csdn.net/jinping_shi/article/details/52433975</a></p>
+<p>reference：<a href="https://blog.csdn.net/qq_36427732/article/details/81260110" target="_blank" rel="noopener">https://blog.csdn.net/qq_36427732/article/details/81260110</a></p>
+<p>PS：需要注意的是，这一系列操作，只是在训练模型的时候使用，在测试模型的时候为了拿到更确定的结果，一般不使用这些操作</p>
+<h2 id="关于数据集需要考虑的一些环境偏移"><a href="#关于数据集需要考虑的一些环境偏移" class="headerlink" title="关于数据集需要考虑的一些环境偏移"></a>关于数据集需要考虑的一些环境偏移</h2><ul>
+<li>协变量偏移</li>
+<li>标签偏移</li>
+<li>概念偏移</li>
+</ul>
+<h2 id="参数初始化"><a href="#参数初始化" class="headerlink" title="参数初始化"></a>参数初始化</h2><ul>
+<li>normal ： 按正态分布参数初始化</li>
+<li>Xavier ： 每层输出的方差不该受该层输入个数影响，且每层梯度的方差也不该受该层输出个数影响。</li>
+<li>使用 RELU（without BN） 激活函数时，最好选用 He 初始化方法，将参数初始化为服从高斯分布或者均匀分布的较小随机数</li>
+<li>使用 BN 时，减少了网络对参数初始值尺度的依赖，此时使用较小的标准差(eg：0.01)进行初始化即可</li>
+<li>借助预训练模型中参数作为新任务参数初始化的方式也是一种简便易行且十分有效的模型参数初始化方法</li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200216_165423_45.png" alt="20200216_165423_45"></p>
+<p>reference：<a href="https://blog.csdn.net/victoriaw/article/details/73000632" target="_blank" rel="noopener">https://blog.csdn.net/victoriaw/article/details/73000632</a><br>            <a href="https://blog.csdn.net/mzpmzk/article/details/79839047" target="_blank" rel="noopener">https://blog.csdn.net/mzpmzk/article/details/79839047</a></p>
+<h2 id="循环神经网络进阶"><a href="#循环神经网络进阶" class="headerlink" title="循环神经网络进阶"></a>循环神经网络进阶</h2><h3 id="GRU"><a href="#GRU" class="headerlink" title="GRU"></a>GRU</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200217_174208_72.png" alt="20200217_174208_72"></p>
+<p>这里把h当作记忆，x是当前输入</p>
+<ul>
+<li>r是重置门，对上一时间步的的记忆进行重置(也就是选择性记忆)，再与当前时间步的输入的信息进行拼接得到h’，重置⻔有助于捕捉时间序列⾥短期的依赖关系；</li>
+<li>z是更新门，对当前时间步的输入进行选择，首先筛选一部分需要遗忘的信息，筛选到记忆h^t中，另一部分就是记忆的东西，与我们重置后的h’进行点乘(在加入了之前记忆维度的信息中再次筛选)，得到当前时间步的记忆h^t，也就是输出，更新⻔有助于捕捉时间序列⾥⻓期的依赖关系。</li>
+</ul>
+<h3 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200217_174143_47.png" alt="20200217_174143_47"></p>
+<p>这里把h当作短期记忆，把c当作长期记忆，x是当前输入，sigmoid生成门控信号(筛选信息)，tanh对信息进行压缩。</p>
+<ul>
+<li>Z^f是遗忘门(激活函数sigmoid)，通过上一时间步的长期记忆和遗忘门的输入，对上一时间步的长期记忆进行选择性的遗忘，并加入到长期记忆c^t中去。控制上一时间步的记忆细胞 输入门:控制当前时间步的输入</li>
+<li>Z^i是输入门(激活函数sigmoid)，Z是候选记忆细胞(激活函数tanh)[⼀种特殊的隐藏状态的信息的流动]，两者点乘得到保留的当前输入的有用的信息，加到长期记忆c^t中去。</li>
+<li>Z^o是输出门(激活函数sigmoid)，通过输出门筛选出一些有用的信息与压缩后的当前长期记忆点乘，成为了当前的短期记忆h^t，对h^t进行学习，即可得到当前时间步的输出了。控制从记忆细胞到隐藏状态</li>
+</ul>
+<h3 id="初始化的问题"><a href="#初始化的问题" class="headerlink" title="初始化的问题"></a>初始化的问题</h3><ul>
+<li>当t=0是需要设置h^-1 = 0</li>
+<li>一般输出的时候还需要加一层分类。<h3 id="网络结构的扩展"><a href="#网络结构的扩展" class="headerlink" title="网络结构的扩展"></a>网络结构的扩展</h3><h4 id="深度循环神经网络"><a href="#深度循环神经网络" class="headerlink" title="深度循环神经网络"></a>深度循环神经网络</h4></li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200217_174638_11.png" alt="20200217_174638_11"></p>
+<p>就是多层隐藏状态，将第一层隐藏状态传到后面一层。将原始输入转化为对更高层的隐藏状态更适合表示，但是增加深度会带来优化困难，需要数据集要求更高，一般情况下，更容易优化较浅的架构。</p>
+<h4 id="双向神经网络"><a href="#双向神经网络" class="headerlink" title="双向神经网络"></a>双向神经网络</h4><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200217_174651_30.png" alt="20200217_174651_30"></p>
+<p>即顺序和逆序同步进行，每一个输入在顺序和逆序中担任的不同隐藏状态的角色</p>
+<p>缺点是必须获取了所有时刻的输入之后，才能进行每一个时刻的输出。</p>
+<h1 id="Task-4"><a href="#Task-4" class="headerlink" title="Task 4"></a>Task 4</h1><h2 id="机器翻译"><a href="#机器翻译" class="headerlink" title="机器翻译"></a>机器翻译</h2><p>难点：输入和输出的序列不是等长的<br>解决方法：Encoder-Decoder<br>###数据预处理</p>
+<ul>
+<li>数据清洗<br>词与标点符号的区分，<br>乱码的去除和代替<br>大小写统一为小写，语义相同，否则会扩大单词级别，引起语义的误会</li>
+<li>分词：将字符串转化为单词列表</li>
+<li>建立词典(双语)<br>去重<br>不要稀有词(设置min-freq),是否使用特殊词<br>建立id-&gt;单词(列表)和单词-&gt;id(字典)的映射</li>
+<li>载入数据集<br>通过padding保证，每个batch大小一样，同时保存有效长度，长的去掉，短的padding补全<br>数据生成器每次只生成一组，不会全部生成才开始工作，将双语的单词列表对应到id列表，装换成tensor ，再用dataloader生成。</li>
+</ul>
+<h3 id="Sequence-to-Sequence"><a href="#Sequence-to-Sequence" class="headerlink" title="Sequence to Sequence"></a>Sequence to Sequence</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_103050_22.png" alt="20200218_103050_22"></p>
+<p>在Encoder-Decoder框架的基础上的实现的算法框架，左侧Encoder编码将输入序列转化成一个固定长度的向量编码，右侧Decoder解码将之前生成的固定向量再转化成输出序列，在机器翻译中就是生成式语言模型</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_103456_89.png" alt="20200218_103456_89"></p>
+<p>tips：</p>
+<ul>
+<li>数据的表示是按照时间顺序的。也就是(seq_len,batch_size,…),第一维度是时间(batch_size)</li>
+<li>在Encoder中，最后将state传入Decoder，state包括记忆细胞和隐藏状态</li>
+<li>计算损失函数的时候需要用个mask将有效长度外的单词置0</li>
+<li>损失函数计算的时候得到的是各个batch的分数，然后将其除于有效长度得到均值</li>
+</ul>
+<h4 id="Embedding-词嵌入"><a href="#Embedding-词嵌入" class="headerlink" title="Embedding(词嵌入)"></a>Embedding(词嵌入)</h4><p>给出一个文档，文档就是一个单词序列比如 “A B A C B F G”, 希望对文档中每个不同的单词都得到一个对应的向量(往往是低维向量)表示。比如，对于这样的“A B A C B F G”的一个序列，也许我们最后能得到：A对应的向量为[0.1 0.6 -0.5]，B对应的向量为[-0.2 0.9 0.7]  （此处的数值只用于示意）</p>
+<p>之所以希望把每个单词变成一个向量，目的还是为了方便计算，比如“求单词A的同义词”(包括语法同义与语义同义)，就可以通过“求与单词A在cos距离下最相似的向量”来做到；其次，使用One-hot 方法编码的向量会很高维也很稀疏。假设我们在做自然语言处理（NLP）中遇到了一个包含2000个词的字典，当使用One-hot编码时，每一个词会被一个包含2000个整数的向量来表示，其中1999个数字是0，如果字典再大一点，这种方法的计算效率会大打折扣。</p>
+<p>常见的词嵌入如word2vec、glove、Fasttext等等</p>
+<h4 id="device"><a href="#device" class="headerlink" title=".device"></a>.device</h4><p>torch.device代表将torch.Tensor分配到的设备的对象。</p>
+<p>torch.device包含一个设备类型（’cpu’或’cuda’设备类型）和可选的设备的序号。如果设备序号不存在，则为当前设备; 例如，torch.Tensor用设备构建’cuda’的结果等同于’cuda:X’,其中X是torch.cuda.current_device()的结果。</p>
+<p>torch.Tensor的设备可以通过Tensor.device访问属性。</p>
+<p>由此对象生成的东西就不需要再分配啦</p>
+<h4 id="beam-search"><a href="#beam-search" class="headerlink" title="beam search"></a>beam search</h4><p>beam search只在预测的时候需要。训练的时候因为知道正确答案，并不需要再进行这个搜索。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_105640_77.png" alt="20200218_105640_77"></p>
+<p>通常来说，不是再每层选个最高分就是构造好句子，往往得看整个句子的得分怎么样。所以就可以通过贪心算法去遍历，但是这样计算效率太低了。外面就通过集束搜索，找到第一个单词最高得分的几个(自己设定个数)，然后找到对应的句子，然后比较得分最高得分的几个继续递归下去最后得到两个概率最高的序列。</p>
+<h2 id="注意力机制"><a href="#注意力机制" class="headerlink" title="注意力机制"></a>注意力机制</h2><p>再seq2seq中，解码器从编码器接收的唯一信息是「最后一个编码器隐藏状态」（图 0.1 中的两个红色节点），这是一种类似于输入序列数字总结的向量表示。因此，对于较长的输入文本（图 0.2），我们如果仍希望解码器仅使用这一个向量表示（希望它「充分概括输入序列」）来输出译文，那这是不合理的。这可能导致灾难性遗忘。</p>
+<p>与此同时，解码的目标词语可能只与原输入的部分词语有关，而并不是与所有的输入有关。在seq2seq模型中，解码器只能隐式地从编码器的最终状态中选择相应的信息。然而，注意力机制可以将这种选择过程显式地建模。</p>
+<h3 id="计算过程"><a href="#计算过程" class="headerlink" title="计算过程"></a>计算过程</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_155431_26.png" alt="20200218_155431_26"></p>
+<p>1.获取每个编码器隐藏状态的分数，关于评分函数，包括点积注意力以及多层感知机注意力。其中分数高的那位意味着要翻译的下一个词将极大地受到此编码器隐藏状态的影响。</p>
+<p>2.通过softmax层获得注意力权重(可以理解为这个单词相关性的权重)</p>
+<p>3.通过 softmax 得分将每个编码器隐藏状态相乘，获得 alignment 向量(alignment 意为将原始文本片段与其对应的译文片段匹配)或标注向量</p>
+<p>4.对 alignment 向量求和，生成上下文向量context</p>
+<p>5.将上下文向量输入到编码器</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200218_161051_74.png" alt="20200218_161051_74"></p>
+<p>再seq2seq的应用，如图所示，Query对应的是解码器的隐藏层，编码器某层的输出对应的是key-value，三者attention聚合起来输出上下文信息context vector，并与解码器输入Dt拼接起来一起送到解码器：</p>
+<h2 id="transformer"><a href="#transformer" class="headerlink" title="transformer"></a>transformer</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_221156_16.png" alt="20200219_221156_16"><br>state：encoder输出作为key 和 value 传入 decoder。decoder的状态作为query</p>
+<h3 id="多头注意力"><a href="#多头注意力" class="headerlink" title="多头注意力"></a>多头注意力</h3><p>Query，Key，Value首先通过一个线性变换，然后输入到放缩点积attention，注意这里要做h次，也就是所谓的多头，每一次算一个头，头之间参数不共享，每次Q，K，V进行线性变换的参数W是不一样的。然后将h次的放缩点积attention结果进行拼接，再进行一次线性变换得到的值作为多头attention的结果。</p>
+<p>可以看到，多头attention进行了h次计算而不仅仅算一次，允许模型在不同的表示子空间里学习到相关的信息。</p>
+<h3 id="自注意力"><a href="#自注意力" class="headerlink" title="自注意力"></a>自注意力</h3><p>Self-attention即K=V=Q，例如输入一个句子，那么里面的每个词都要和该句子中的所有词进行attention计算。目的是学习句子内部的词依赖关系，捕获句子的内部结构。</p>
+<h3 id="Position-encoding"><a href="#Position-encoding" class="headerlink" title="Position encoding"></a>Position encoding</h3><p>上述模型并不能学习序列的顺序。换句话说，如果将 K,V 按行打乱顺序（相当于句子中的词序打乱），那么 Attention 的结果还是一样的。学习不到顺序信息，那么效果将会大打折扣（比如机器翻译中，有可能只把每个词都翻译出来了，但是不能组织成合理的句子）。这就引出了位置向量。</p>
+<h3 id="层归一化"><a href="#层归一化" class="headerlink" title="层归一化"></a>层归一化</h3><p>LN是和BN非常近似的一种归一化方法，不同的是BN取的是不同样本的同一个特征，而LN取的是同一个样本的不同特征。在BN和LN都能使用的场景中，BN的效果一般优于LN，原因是基于不同数据，同一特征得到的归一化特征更不容易损失信息。但是有些场景是不能使用BN的，例如batchsize较小或者在RNN中，这时候可以选择使用LN，LN得到的模型更稳定且起到正则化的作用。RNN能应用到小批量和RNN中是因为LN的归一化统计量的计算是和batchsize没有关系的。</p>
+<p>reference：<a href="https://www.jianshu.com/p/f3a6fd73115f" target="_blank" rel="noopener">https://www.jianshu.com/p/f3a6fd73115f</a></p>
+<h1 id="Task-5"><a href="#Task-5" class="headerlink" title="Task 5"></a>Task 5</h1><h2 id="卷积神经网络基础"><a href="#卷积神经网络基础" class="headerlink" title="卷积神经网络基础"></a>卷积神经网络基础</h2><h3 id="nn-parameter"><a href="#nn-parameter" class="headerlink" title="nn.parameter"></a>nn.parameter</h3><p>维护一些可学习的参数</p>
+<ul>
+<li>parameter本身为tensor的子类，使用它可以自动为参数附上梯度，使得参数是可学习的</li>
+<li>nn.Module会自动维护参数集合，在其子类定义nn.parameter会自动的添加到参数集合中</li>
+</ul>
+<h2 id="CNN概念"><a href="#CNN概念" class="headerlink" title="CNN概念"></a>CNN概念</h2><h3 id="互相关运算-卷积运算-卷积层"><a href="#互相关运算-卷积运算-卷积层" class="headerlink" title="互相关运算 卷积运算 卷积层"></a>互相关运算 卷积运算 卷积层</h3><p>互相关运算就是一个输入矩阵与一个核按元素相乘并求和，得到新矩阵相应位置的元素</p>
+<p>而卷积运算是将核数组上下左右翻转在与输入矩阵做互相关运算</p>
+<p>因为核是可以学习的，卷积层就没有使用卷积运算。所以所谓卷积层就是 输入与卷积核做互相关运算 ，在加上一个偏置量得到输出。</p>
+<h3 id="特征图-感受野"><a href="#特征图-感受野" class="headerlink" title="特征图 感受野"></a>特征图 感受野</h3><p>特征图是卷积层的输出矩阵，感受野则是某一区域的前向运算中所代表的区域(可以想想哪个金字塔模型)</p>
+<h3 id="填充-步幅-多输入-多输出"><a href="#填充-步幅-多输入-多输出" class="headerlink" title="填充 步幅 多输入 多输出"></a>填充 步幅 多输入 多输出</h3><p>这些是卷积层的超参数。<br>填充是在输入矩阵的高和宽两侧填充元素(通常为0)</p>
+<p>如果原输入的高和宽是nh和nw，卷积核的高和宽是kh和kw，在高的两侧一共填充ph行，在宽的两侧一共填充pw列，当高上步幅为sh，宽上步幅为sw时，输出形状为：</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_120316_24.png" alt="20200219_120316_24"></p>
+<p>多通道输入可以联想彩色图像的三通道卷积</p>
+<p>多通道输出则是通过每个输入矩阵对应多个核即可</p>
+<h3 id="1x1卷积层"><a href="#1x1卷积层" class="headerlink" title="1x1卷积层"></a>1x1卷积层</h3><p>1.放缩通道数：通过控制卷积核的数量达到通道数的放缩。<br>2.增加非线性。1×1卷积核的卷积过程相当于全连接层的计算过程，并且还加入了非线性激活函数，从而可以增加网络的非线性。<br>3.计算参数少</p>
+<p>全连接层的作用是，可以将卷积得到的局部特征连接起来，综合考虑整个图像。</p>
+<p>当1*1卷积层的channel个数等于全连接层的节点个数时，可以看成全连接层，其中空间维度高和宽上的每个元素相当于样本，通道相当于特征。</p>
+<h3 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h3><p>生成一个大小的窗口，在输入矩阵上滑动，取最大值或者平均值。池化层的输入和输出通道一样，获得不同维度的特征</p>
+<h2 id="Lenet"><a href="#Lenet" class="headerlink" title="Lenet"></a>Lenet</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_175817_29.png" alt="20200219_175817_29"></p>
+<p>lenet首次把全连接层变成了卷积层，作用是：</p>
+<ul>
+<li>使得能够获取图像的局部特征，而全连接层则失去了局部特征</li>
+<li>增加了计算效率，减少了参数 的数量</li>
+</ul>
+<h2 id="Alexnet"><a href="#Alexnet" class="headerlink" title="Alexnet"></a>Alexnet</h2><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_175934_97.png" alt="20200219_175934_97"><br>在LeNet上的改进</p>
+<p>1.使用最大池化层</p>
+<p>mean Vs max</p>
+<ul>
+<li>mean-pooling能减小第一种误差（邻域大小受限造成的估计值方差增大），更多的保留图像的背景信息，</li>
+<li>max-pooling能减小第二种误差（卷积层参数误差造成估计均值的偏移），更多的保留纹理信息。</li>
+</ul>
+<p>2.更多的通道数：更多的特征<br>3.Relu Vs Sigmoid</p>
+<ul>
+<li>导数容易计算</li>
+<li>缓解梯度消失</li>
+<li>负的时候等于0，起到正则化，稀疏化的作用</li>
+</ul>
+<p>4.引入dropout，是模型参数稀疏化，泛化能力更强<br>5.引入数据增强，扩大数据集，缓解过拟合</p>
+<h2 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h2><p>通过重复使用简单的基础块来构建深度模型(VGG Block)</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_180228_22.png" alt="20200219_180228_22"></p>
+<p>通过基础块的使用可以使得模型更加灵活，适应不同的数据集</p>
+<p>图中的block的卷积层保持宽高不变，池化层使得宽高减半</p>
+<h2 id="NiN"><a href="#NiN" class="headerlink" title="NiN"></a>NiN</h2><p>网络中的网络，由NiN block构成的。由一个可以自己设置参数的卷积层和两个固定参数的1x1卷积层(起到全连接层的作用)串联</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_180526_70.png" alt="20200219_180526_70"></p>
+<p>其次创新的部分是最后获得类别的时候不再使用dense，而是使用了GlobalAvgPool<br>通过调整最后一个block 的通道数，使得最后的输出等于类别数。<br>再加上一个池化层，将每个通道的所有元素平均。此操作缓解过拟合，但增加了训练时间</p>
+<h2 id="googlenet"><a href="#googlenet" class="headerlink" title="googlenet"></a>googlenet</h2><p>由inception块组成的网络，每个inception中通过可以自由控制输出通道数的子网络来抽取信息，再concat起来形成网络</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_180846_79.png" alt="20200219_180846_79"></p>
+<p>此处的1x1卷积层的作用是减少通道数，降低模型复杂度<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200219_180921_53.png" alt="20200219_180921_53"></p>
+<p>首先使用7x7的卷积层和3x3的maxpool抽取特征，减小特征图大小，然后使用1x1增加非线性。</p>
+<h1 id="Task-6"><a href="#Task-6" class="headerlink" title="Task 6"></a>Task 6</h1><h2 id="批归一化"><a href="#批归一化" class="headerlink" title="批归一化"></a>批归一化</h2><p>我们经常对输入归一化，可以更好得提升模型的表现。但是存在一个问题，就是随着模型加深，每个batch过后，模型参数都会发生改变，因而网络的数据分布也会发生改变。BN的引入就是解决这个问题，使得每一层网络的数据分布都进行标准化。</p>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_115930_40.png" alt="20200224_115930_40"></p>
+<p>分为四步：</p>
+<ul>
+<li>求每一个训练批次数据的均值</li>
+<li>求每一个训练批次数据的方差</li>
+<li>使用求得的均值和方差对该批次的训练数据做归一化，获得0-1分布。其中ε是为了避免除数为0时所使用的微小正数。</li>
+<li>尺度变换和偏移：将xi乘以γ调整数值大小，再加上β增加偏移后得到yi，这里的γ是尺度因子，β是平移因子。这一步是BN的精髓，由于归一化后的xi基本会被限制在正态分布下，使得网络的表达能力下降。为解决该问题，我们引入两个新的参数：γ,β。 γ和β是在训练时网络自己学习得到的。</li>
+</ul>
+<h3 id="BN的位置"><a href="#BN的位置" class="headerlink" title="BN的位置"></a>BN的位置</h3><p>至于BN层放在激活函数之前还是激活函数之后，更像是一个超参数，往往和激活函数本身有关，像sigmoid和tanh这种存在梯度消失问题的激活函数，如果事先对输入做一个标准化，会一定程度缓解梯度消失，但是Relu这种梯度消失问题不算特别严重的激活函数，我们更倾向于放在其后面，真正意义上的对每个batch 的输入归一化。</p>
+<h3 id="不同环境下的BN"><a href="#不同环境下的BN" class="headerlink" title="不同环境下的BN"></a>不同环境下的BN</h3><p>上面提到的是全连接层下的BN，在卷积层中，将每个通道分开处理，也就是，如果每个batch有m个q<em>p样本，则针对每个通道的m</em>q*p个元素批归一化。</p>
+<p>在预测阶段，我们没有这么多的batch了。 我们希望模型对于任意输入都有确定的输出。因此，单个样本的输出不应取决于批量归一化所需要的随机小批量中的均值和方差。一种常用的方法是通过移动平均估算整个训练数据集的样本均值和方差，并在预测时使用它们得到确定的输出。对于均值来说直接计算所有训练batch u值的平均值；然后对于标准偏差采用训练阶段每个batch σB的无偏估计，然后再代入归一化的公式里去。</p>
+<p>Reference：<a href="https://www.zhihu.com/question/283715823/answer/438882036" target="_blank" rel="noopener">https://www.zhihu.com/question/283715823/answer/438882036</a></p>
+<p><a href="https://www.cnblogs.com/skyfsm/p/8453498.html" target="_blank" rel="noopener">https://www.cnblogs.com/skyfsm/p/8453498.html</a></p>
+<h2 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h2><p>我们可以看到，网络的深度从alexnet的7层到VGG的16/19层，再到googlenet的22层，网络不断加深，看样子对性能也不断增加，但是这个问题不是绝对的，人们发现随着网络加深反而会使得网络收敛的速度变得更慢，准确度也会降低。2015年Resnet出来咯。残差块的出现使得模型更容易捕捉数据的细微波动，更容易优化，输入也可以通过跨层的数据线路更快得向前传播</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_122546_99.png" alt="20200224_122546_99"></p>
+<p>由于是相加，每一层的输入和输出的形状必须是一致，所以需要当形状不一致的时候，需要使用1x1卷积层改变通道数。</p>
+<h2 id="DenseNet"><a href="#DenseNet" class="headerlink" title="DenseNet"></a>DenseNet</h2><p>相对于resnet的使用相加来连接，densenet使用了concat连接。这是一种密集连接，每一次concat，相当于保留了上一层的特征图，这样可以实现特征复用，提升效率。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_124202_56.png" alt="20200224_124202_56"></p>
+<p>相对于Resnet：</p>
+<ul>
+<li>相比ResNet拥有更少的参数数量.</li>
+<li>加强了特征的复用.</li>
+<li>网络更易于训练,并具有一定的正则效果.</li>
+<li>缓解梯度消失，模型退化</li>
+</ul>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>DenseNet包括稠密层(定义了输入和输出是如何连结的)与过渡层(用来控制通道数，使之不过大)。具体地说过渡层使用了1x1卷积层来减小通道数(自己设定输出通道数大小)，使用stride为2，kernel为2的平均池化层来减半宽和高。</p>
+<h2 id="优化与深度学习"><a href="#优化与深度学习" class="headerlink" title="优化与深度学习"></a>优化与深度学习</h2><p>尽管优化方法可以最小化深度学习中的损失函数值，但本质上优化方法达到的目标与深度学习的目标并不相同。</p>
+<ul>
+<li>优化方法目标：训练集损失函数值</li>
+<li>深度学习目标：测试集损失函数值（泛化性）<br>优化存在的问题：局部最小值，鞍点，梯度消失</li>
+</ul>
+<h2 id="凸"><a href="#凸" class="headerlink" title="凸"></a>凸</h2><p>凸集合：在集合内任意两点的连线上的点仍在集合内，凸的并不一定是凸，凸的交一定是凸<br>凸函数：两个点的连线上的任意一点的值的大小一定大于该点的函数值值大小。该公式的泛化形式是，函数值的期望大于等于期望的函数值</p>
+<h3 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h3><ul>
+<li><p>无局部最小值</p>
+</li>
+<li><p>与凸集的关系<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_170354_48.png" alt="20200224_170354_48"></p>
+</li>
+<li><p>凸函数与二阶导<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_170442_17.png" alt="20200224_170442_17"></p>
+</li>
+</ul>
+<h3 id="有限制条件的求解方法"><a href="#有限制条件的求解方法" class="headerlink" title="有限制条件的求解方法"></a>有限制条件的求解方法</h3><ul>
+<li>拉格朗日乘子法<br><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200224_171004_28.png" alt="20200224_171004_28"></li>
+<li>惩罚项：如正则化</li>
+<li>投影法：如果点跑到了约束集外面去了，我们就将他投影到约束集内最接近的一点。<h2 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h2><h3 id="多维度梯度下降"><a href="#多维度梯度下降" class="headerlink" title="多维度梯度下降"></a>多维度梯度下降</h3>同一维梯度下降的迭代方程一样，只不过梯度变成了有各个变量组成的梯度向量。</li>
+</ul>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_134433_35.png" alt="20200225_134433_35"></p>
+<h3 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h3><p>一种迭代方法，可用于求解方程和最优化问题。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_135223_92.png" alt="20200225_135223_92"></p>
+<p>因为考虑到了曲线的本身性质，所以比梯度下降迭代的更快。</p>
+<p>在高维的情况下，牛顿迭代公式是：</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/MyImageStore/Image/20200225_135846_15.png" alt="20200225_135846_15"></p>
+<p>但是计算的复杂度是比较高的，我们一般计算乘黑塞矩阵对角线上的值</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/MyImageStore/Image/20200225_140038_40.png" alt="20200225_140038_40"></p>
+<h3 id="共轭梯度法"><a href="#共轭梯度法" class="headerlink" title="共轭梯度法"></a>共轭梯度法</h3><p>这是一种迭代方法，它的迭代次数更少，优势就是每个方向都走到了极致, 也即是说寻找极值的过程中绝不走曾经走过的方向,那么n维空间的函数极值也就走n步就解决了.假如是二维空间, 那就直走两步, 跟最速下降法比优势是不言而喻的.</p>
+<p>但是以上以及牛顿法往往因为计算效率太低，不被使用。</p>
+<h3 id="随机梯度下降Vs批量梯度下降Vs小批量梯度下降"><a href="#随机梯度下降Vs批量梯度下降Vs小批量梯度下降" class="headerlink" title="随机梯度下降Vs批量梯度下降Vs小批量梯度下降"></a>随机梯度下降Vs批量梯度下降Vs小批量梯度下降</h3><p>三者都是梯度下降的方法，区别在于使用的样本数，批量梯度下降使用的是全部的样本，随机梯度下降使用一个样本，上述两者是一个算力Vs效率的过程，而小批量随机梯度则是一种折中的选择，就是使用一部分样本进行梯度下降。一般来说，小批量梯度下降就是SGD啦。</p>
+<p>选择完方法之后还有一个学习率的问题，介绍了几种动态学习率的方法，一种是用时间做分段函数的方法，还有指数形式以及二项式形式的方法。</p>
+<h1 id="Task-9"><a href="#Task-9" class="headerlink" title="Task 9"></a>Task 9</h1><h2 id="目标检测基础"><a href="#目标检测基础" class="headerlink" title="目标检测基础"></a>目标检测基础</h2><h3 id="框的表达"><a href="#框的表达" class="headerlink" title="框的表达"></a>框的表达</h3><p>在算法里面，锚框和边界框的表达域之前接触的表达有所不同，(左上x, 左上y, 右下x, 右下y)。</p>
+<p>除此之外，坐标的表达都得除于宽和高，为[0,1]的数字</p>
+<h3 id="锚框"><a href="#锚框" class="headerlink" title="锚框"></a>锚框</h3><p>目标检测通常会在输入图像中采样大量的区域，然后判断这些区域中是否包含我们感兴趣的目标，并调整区域边缘从而更准确地预测目标的真实边界框（ground-truth bounding box）。这里我们介绍其中的一种方法：它以每个像素为中心生成多个大小和宽高比（aspect ratio）不同的边界框。这些边界框被称为锚框（anchor box）</p>
+<p>值得注意的是大小size的值域为[0，1]，表达的意思是anchor的 宽=高 面积相对于整张图片的一个基准大小，也就是s^2为anchor面积相对于整张图片(大小为1)的大小。那么如何计算锚框的宽和高呢，设宽和高为w和h，w/h=r，s^2=wh,联立就可以球的宽和高分别为ws*sqrt(r)和hs/sqrt(r)</p>
+<h3 id="交并比"><a href="#交并比" class="headerlink" title="交并比"></a>交并比</h3><p>如何量化两个框(如锚框和真实边界框)的相似度呢。Jaccard系数（Jaccard index）可以衡量两个集合的相似度。给定集合和，它们的Jaccard系数即二者交集大小除以二者并集大小，更常被称为交并比：</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_165340_13.png" alt="20200225_165340_13"></p>
+<h3 id="过程-1"><a href="#过程-1" class="headerlink" title="过程"></a>过程</h3><h4 id="生成锚框"><a href="#生成锚框" class="headerlink" title="生成锚框"></a>生成锚框</h4><p>有两个参数生成锚框，分别是大小和宽高比，如果是排列组合的话生成的锚框太多了，所以我们通常对包含s1和r1的组合感兴趣。所以每个像素生成的锚框数为m+n-1个。返回的框的信息即上述框的表达那样子。此时框的数目是wh(m+n-1).下面进一步筛选。</p>
+<h4 id="标注锚框"><a href="#标注锚框" class="headerlink" title="标注锚框"></a>标注锚框</h4><p>我们需要标注的信息有两个：一是类别，二是相对于ground truth的偏移量。首先如何分配类别：</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_165615_19.png" alt="20200225_165615_19"></p>
+<p>简单地说，先找置信度最高的anchor分配到对应的ground truth上，标注下来，然后去掉对应的groundtruth 和 anchor的行列，然后继续寻找当前置信度最高的，循环上述操作，直到所有的位置都被去掉了，然后再从剩余元素中一行行看每个anchor对应的ground truth中置信度最高的那个，如果高过阈值就标注类别，否则就标注为背景。</p>
+<p>然后是偏移量</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_170424_64.png" alt="20200225_170424_64"></p>
+<p>四位分别对应x，y，宽和高。我们通过mask，如果是背景的话，就在计算之前滤掉负类的偏移量</p>
+<h4 id="输出预测边界框"><a href="#输出预测边界框" class="headerlink" title="输出预测边界框"></a>输出预测边界框</h4><p>标注完毕后，我们会发现锚框实在是太多啦！我们采用非极大值抑制的方法去筛选。 对于一个anchor会计算它每个类别的概率。首先，我们先选取概率最大的那个类别。以此作为基准，将剩下的与这个anchor计算交并比，设置一个超参，如果大于这个超参就去掉(太相似了指的是一个物体)。然后再剩下的再次选择概率第二大的anchor作为基准重复上述操作(可能存在第二个相同的物体)，重复这个过程，直到所有的anchor都作为基准。输出剩下的这些anchor。</p>
+<p>PS:当然，如果是背景就直接移除啦~</p>
+<h3 id="多尺度目标检测"><a href="#多尺度目标检测" class="headerlink" title="多尺度目标检测"></a>多尺度目标检测</h3><p>尽管我们有很多操作去筛选锚框但是以每个像素作为中心点生成锚框实在是太多了。多尺度目标检测就是：在输入图像中均匀采样一小部分像素，并以采样的像素为中心生成锚框。此外，在不同尺度下，我们可以生成不同数量和不同大小的锚框。值得注意的是，较小目标比较大目标在图像上出现位置的可能性更多。举个简单的例子：形状为1x1、1x2和2x2的目标在形状为的图像上可能出现的位置分别有4、2和1种。因此，当使用较小锚框来检测较小目标时，我们可以采样较多的区域；而当使用较大锚框来检测较大目标时，我们可以采样较少的区域。</p>
+<h2 id="样式迁移"><a href="#样式迁移" class="headerlink" title="样式迁移"></a>样式迁移</h2><p>将某图像中的样式应用在另一图像之上。我们需要两张输入图像，一张是内容图像，另一张是样式图像，我们将使用神经网络修改内容图像使其在样式上接近样式图像。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_171831_78.png" alt="20200225_171831_78"></p>
+<p>首先，我们初始化合成图像，例如将其初始化成内容图像(通过预处理函数preprocess转化为神经网络接受的输入格式)。该合成图像是样式迁移过程中唯一需要更新的变量，即样式迁移所需迭代的模型参数。然后，我们选择一个预训练的卷积神经网络来抽取图像的特征，其中的模型参数在训练中无须更新。深度卷积神经网络凭借多个层逐级抽取图像的特征。我们可以选择其中某些层的输出作为内容特征或样式特征。以图为例，这里选取的预训练的神经网络含有3个卷积层，其中第二层输出图像的内容特征，而第一层和第三层的输出被作为图像的样式特征。接下来，我们通过正向传播（实线箭头方向）计算样式迁移的损失函数，并通过反向传播（虚线箭头方向）迭代模型参数，即不断更新合成图像。样式迁移常用的损失函数由3部分组成：内容损失（content loss）[平方误差]使合成图像与内容图像在内容特征上接近，样式损失（style loss）[平方误差+格拉姆矩阵]令合成图像与样式图像在样式特征上接近，而总变差损失（total variation loss）[总变差降噪]则有助于减少合成图像中的噪点。最后，当模型训练结束时，我们输出样式迁移的模型参数，即得到最终的合成图像(通过后处理函数postprocess则将输出图像中的像素值还原回标准化之前的值)。</p>
+<h3 id="特征抽取"><a href="#特征抽取" class="headerlink" title="特征抽取"></a>特征抽取</h3><p>为了抽取图像的内容特征和样式特征，我们可以选择VGG网络中某些层的输出。一般来说，越靠近输入层的输出越容易抽取图像的细节信息，反之则越容易抽取图像的全局信息。为了避免合成图像过多保留内容图像的细节，我们选择较靠近输出的层，也称内容层，来输出图像的内容特征。我们还从不同卷积层中选择靠近输入层的卷积层来匹配局部和全局的样式，这些层也叫样式层。</p>
+<h3 id="格拉姆矩阵"><a href="#格拉姆矩阵" class="headerlink" title="格拉姆矩阵"></a>格拉姆矩阵</h3><p>格拉姆矩阵可以看做feature之间的偏心协方差矩阵（即没有减去均值的协方差矩阵），在feature map中，每个数字都来自于一个特定滤波器在特定位置的卷积，因此每个数字代表一个特征的强度，而Gram计算的实际上是两两特征之间的相关性，哪两个特征是同时出现的，哪两个是此消彼长的等等，同时，Gram的对角线元素，还体现了每个特征在图像中出现的量，因此，Gram有助于把握整个图像的大体风格。有了表示风格的Gram Matrix，要度量两个图像风格的差异，只需比较他们Gram Matrix的差异即可。</p>
+<h3 id="总变差降噪"><a href="#总变差降噪" class="headerlink" title="总变差降噪"></a>总变差降噪</h3><p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_173305_90.png" alt="20200225_173305_90"></p>
+<h2 id="图像分类实例"><a href="#图像分类实例" class="headerlink" title="图像分类实例"></a>图像分类实例</h2><ul>
+<li>通常我们会创建四个数据集文件夹：分别是划分的训练集，划分的验证集，完整的训练集，测试集。先通过划分的训练集，划分的验证集来调整超参数和模型。调整完毕之后我们再用完整的训练集去训练。最后用测试集验证准确率。</li>
+<li>关于预训练模型，直接复用预训练模型在输出层的输入，即抽取的特征。我们只需要重定义模型的输出层，对重定义的输出层进行训练。而对于用于抽取特征的部分，我们冻结参数。</li>
+<li>有一些功能模块再训练集和测试集的效果不一样(BN等)，我们通过net.train()，net.eval()来设置。<h3 id="ImageFolder"><a href="#ImageFolder" class="headerlink" title="ImageFolder"></a>ImageFolder</h3>torchvision已经预先实现了常用的Dataset，包括前面使用过的CIFAR-10，以及ImageNet、COCO、MNIST、LSUN等数据集，可通过诸如torchvision.datasets.CIFAR1来调用，ImageFolder假设所有的文件按文件夹保存，每个文件夹下存储同一个类别的图片，文件夹名为类名。</li>
+</ul>
+<p>他有四个参数</p>
+<ul>
+<li>root：在root指定的路径下寻找图片，创建实例时，会以类别目录名为第一关键字，类别目录下的图像文件名为第二关键字，按字典序从小到大依次处理</li>
+<li>transform：对PIL Image进行的转换操作，transform的输入是使用loader读取图片的返回对象</li>
+<li>target_transform：对label的转换</li>
+<li>loader：给定路径后如何读取图片，默认读取为RGB格式的PIL Image对象</li>
+</ul>
+<p>PS:ImageFolder会维护一部分可接受的图像文件类型，对于不可接受的文件类型会直接忽略掉</p>
+<p>reference：<a href="https://blog.csdn.net/weixin_40123108/article/details/85099449" target="_blank" rel="noopener">https://blog.csdn.net/weixin_40123108/article/details/85099449</a></p>
+<h1 id="Task-10"><a href="#Task-10" class="headerlink" title="Task 10"></a>Task 10</h1><h2 id="GAN"><a href="#GAN" class="headerlink" title="GAN"></a>GAN</h2><p>判别模型：条件概率<br>生成模型：概率分布(采样数据，压缩数据)<br>趋势：用判别模型进行生成式的学习(如rnn)<br>two-sample-test</p>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><h4 id="判别器"><a href="#判别器" class="headerlink" title="判别器"></a>判别器</h4><p>二分类(Sigmoid分输出概率)，我们的目标是区分数据是真实的还是伪造的，使用的是最小化交叉熵。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_203821_94.png" alt="20200225_203821_94"></p>
+<h4 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h4><p>标准高斯分布随机采样作为输入，生成图片。我们的目标是欺骗判别器，所以希望使得一个假数据被预测为真的，也就是预测概率约等于1，所以使用的是最大化交叉熵。</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_203848_17.png" alt="20200225_203848_17"></p>
+<p>但是当判别器效果很好的时候，这边预测概率趋于0的时候，log约等于0，会导致梯度消失的问题。我们就把1去掉，然后去掉负号取反，去求最小值。(因为都是虚假的图片，所以y也等于0)</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_204616_16.png" alt="20200225_204616_16"></p>
+<p>最后，将判别器和生成器结合在一起：</p>
+<p><img src="https://gitee.com/Belong34/MyBolgImage/raw/master/Image/20200225_204710_78.png" alt="20200225_204710_78"></p>
+<p>PS：BCE损失函数为二分类用的交叉熵损失函数</p>
+<h2 id="DCGAN"><a href="#DCGAN" class="headerlink" title="DCGAN"></a>DCGAN</h2><p>由于GAN存在训练不稳定，生成过程不可控的缺点，而对GAN进行了改进，从而有了DCGAN，DCGAN的生成器和判别器都使用了卷积神经网络（CNN）来替代GAN 中的多层感知机，同时为了使整个网络可微，拿掉了CNN 中的池化层，另外将全连接层以全局池化层替代以减轻计算量，多层卷积层运用在gan网络的生成器和判别器当中以获得更强大的性能。</p>
+<p>网络的生成器和判别器是一个镜像结构，生成器由四个不断减小通道的G-Block(激活函数ReLU)组成，最后通过转置卷积转换为3个通道值(理解为RGB)，最后使用tanh的激活函数，而判别器恰恰相反，由四个不断增大的D-block(激活函数Leaky-ReLU)组成，最后加上一个卷积层生成一个1x1的卷积，在将其用sigmoid转化为一个[0,1]之间的概率输出，代表判别器的判断。</p>
+<h3 id="Totensor与tanh"><a href="#Totensor与tanh" class="headerlink" title="Totensor与tanh"></a>Totensor与tanh</h3><p>Totensor会把像素投影到[0,1]区间内，但是生成器的tanh的输出在[-1,1]区间。所以我们在读取数据的时候会对三个通道加上一个0.5均值，0.5标准差的归一化处理。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/12/10/Data_Analysis/pandas数据预处理/" rel="next" title="数据预处理">
+                  <i class="fa fa-chevron-left"></i> 数据预处理
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/03/02/Deeping_learning/acm machines learning note/" rel="prev" title="acm machines learning note">
+                  acm machines learning note <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-1"><span class="nav-number">1.</span> <span class="nav-text">Task 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归"><span class="nav-number">1.1.</span> <span class="nav-text">线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#训练集-Vs-验证集-Vs-测试集-借鉴Hao-ZHAN"><span class="nav-number">1.1.1.</span> <span class="nav-text">训练集 Vs 验证集 Vs 测试集(借鉴Hao ZHAN)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数值解-Vs-解析解"><span class="nav-number">1.1.2.</span> <span class="nav-text">数值解 Vs 解析解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pytorch学习"><span class="nav-number">1.1.3.</span> <span class="nav-text">pytorch学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#data"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">.data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pytorch自动求导"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">pytorch自动求导</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DataLoader"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">DataLoader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#广播机制"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">广播机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax"><span class="nav-number">1.2.</span> <span class="nav-text">softmax</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为啥使用指数函数？"><span class="nav-number">1.2.1.</span> <span class="nav-text">为啥使用指数函数？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵-Vs-均方误差"><span class="nav-number">1.2.2.</span> <span class="nav-text">交叉熵 Vs 均方误差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pytorch-学习"><span class="nav-number">1.2.3.</span> <span class="nav-text">pytorch 学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#torchvision"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">torchvision</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多层感知机"><span class="nav-number">1.3.</span> <span class="nav-text">多层感知机</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-2"><span class="nav-number">2.</span> <span class="nav-text">Task 2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本预处理"><span class="nav-number">2.1.</span> <span class="nav-text">文本预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#re正则表达式库"><span class="nav-number">2.1.1.</span> <span class="nav-text">re正则表达式库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言模型"><span class="nav-number">2.2.</span> <span class="nav-text">语言模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#n元语法"><span class="nav-number">2.2.1.</span> <span class="nav-text">n元语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#缺陷"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列模型的采样"><span class="nav-number">2.2.2.</span> <span class="nav-text">序列模型的采样</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环神经网络基础"><span class="nav-number">2.3.</span> <span class="nav-text">循环神经网络基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RNN概述"><span class="nav-number">2.3.1.</span> <span class="nav-text">RNN概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度爆炸和梯度消失"><span class="nav-number">2.3.2.</span> <span class="nav-text">梯度爆炸和梯度消失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#困惑度"><span class="nav-number">2.3.3.</span> <span class="nav-text">困惑度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于隐藏状态的初始化"><span class="nav-number">2.3.4.</span> <span class="nav-text">关于隐藏状态的初始化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-3"><span class="nav-number">3.</span> <span class="nav-text">Task 3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#过拟合、欠拟合及其解决方案"><span class="nav-number">3.1.</span> <span class="nav-text">过拟合、欠拟合及其解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#训练误差和泛化误差"><span class="nav-number">3.1.1.</span> <span class="nav-text">训练误差和泛化误差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型选择"><span class="nav-number">3.1.2.</span> <span class="nav-text">模型选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#欠拟合"><span class="nav-number">3.1.3.</span> <span class="nav-text">欠拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过拟合"><span class="nav-number">3.1.4.</span> <span class="nav-text">过拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#权重衰减"><span class="nav-number">3.1.5.</span> <span class="nav-text">权重衰减</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于数据集需要考虑的一些环境偏移"><span class="nav-number">3.2.</span> <span class="nav-text">关于数据集需要考虑的一些环境偏移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数初始化"><span class="nav-number">3.3.</span> <span class="nav-text">参数初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环神经网络进阶"><span class="nav-number">3.4.</span> <span class="nav-text">循环神经网络进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GRU"><span class="nav-number">3.4.1.</span> <span class="nav-text">GRU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSTM"><span class="nav-number">3.4.2.</span> <span class="nav-text">LSTM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化的问题"><span class="nav-number">3.4.3.</span> <span class="nav-text">初始化的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络结构的扩展"><span class="nav-number">3.4.4.</span> <span class="nav-text">网络结构的扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#深度循环神经网络"><span class="nav-number">3.4.4.1.</span> <span class="nav-text">深度循环神经网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双向神经网络"><span class="nav-number">3.4.4.2.</span> <span class="nav-text">双向神经网络</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-4"><span class="nav-number">4.</span> <span class="nav-text">Task 4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器翻译"><span class="nav-number">4.1.</span> <span class="nav-text">机器翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequence-to-Sequence"><span class="nav-number">4.1.1.</span> <span class="nav-text">Sequence to Sequence</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Embedding-词嵌入"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">Embedding(词嵌入)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#device"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">.device</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beam-search"><span class="nav-number">4.1.1.3.</span> <span class="nav-text">beam search</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意力机制"><span class="nav-number">4.2.</span> <span class="nav-text">注意力机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算过程"><span class="nav-number">4.2.1.</span> <span class="nav-text">计算过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer"><span class="nav-number">4.3.</span> <span class="nav-text">transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多头注意力"><span class="nav-number">4.3.1.</span> <span class="nav-text">多头注意力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自注意力"><span class="nav-number">4.3.2.</span> <span class="nav-text">自注意力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Position-encoding"><span class="nav-number">4.3.3.</span> <span class="nav-text">Position encoding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#层归一化"><span class="nav-number">4.3.4.</span> <span class="nav-text">层归一化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-5"><span class="nav-number">5.</span> <span class="nav-text">Task 5</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积神经网络基础"><span class="nav-number">5.1.</span> <span class="nav-text">卷积神经网络基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nn-parameter"><span class="nav-number">5.1.1.</span> <span class="nav-text">nn.parameter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CNN概念"><span class="nav-number">5.2.</span> <span class="nav-text">CNN概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#互相关运算-卷积运算-卷积层"><span class="nav-number">5.2.1.</span> <span class="nav-text">互相关运算 卷积运算 卷积层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征图-感受野"><span class="nav-number">5.2.2.</span> <span class="nav-text">特征图 感受野</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#填充-步幅-多输入-多输出"><span class="nav-number">5.2.3.</span> <span class="nav-text">填充 步幅 多输入 多输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1x1卷积层"><span class="nav-number">5.2.4.</span> <span class="nav-text">1x1卷积层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#池化层"><span class="nav-number">5.2.5.</span> <span class="nav-text">池化层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lenet"><span class="nav-number">5.3.</span> <span class="nav-text">Lenet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Alexnet"><span class="nav-number">5.4.</span> <span class="nav-text">Alexnet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VGG"><span class="nav-number">5.5.</span> <span class="nav-text">VGG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NiN"><span class="nav-number">5.6.</span> <span class="nav-text">NiN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#googlenet"><span class="nav-number">5.7.</span> <span class="nav-text">googlenet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-6"><span class="nav-number">6.</span> <span class="nav-text">Task 6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#批归一化"><span class="nav-number">6.1.</span> <span class="nav-text">批归一化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-number">6.1.1.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BN的位置"><span class="nav-number">6.1.2.</span> <span class="nav-text">BN的位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同环境下的BN"><span class="nav-number">6.1.3.</span> <span class="nav-text">不同环境下的BN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ResNet"><span class="nav-number">6.2.</span> <span class="nav-text">ResNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DenseNet"><span class="nav-number">6.3.</span> <span class="nav-text">DenseNet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构"><span class="nav-number">6.3.1.</span> <span class="nav-text">结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化与深度学习"><span class="nav-number">6.4.</span> <span class="nav-text">优化与深度学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#凸"><span class="nav-number">6.5.</span> <span class="nav-text">凸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">6.5.1.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有限制条件的求解方法"><span class="nav-number">6.5.2.</span> <span class="nav-text">有限制条件的求解方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降"><span class="nav-number">6.6.</span> <span class="nav-text">梯度下降</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多维度梯度下降"><span class="nav-number">6.6.1.</span> <span class="nav-text">多维度梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛顿法"><span class="nav-number">6.6.2.</span> <span class="nav-text">牛顿法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共轭梯度法"><span class="nav-number">6.6.3.</span> <span class="nav-text">共轭梯度法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机梯度下降Vs批量梯度下降Vs小批量梯度下降"><span class="nav-number">6.6.4.</span> <span class="nav-text">随机梯度下降Vs批量梯度下降Vs小批量梯度下降</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-9"><span class="nav-number">7.</span> <span class="nav-text">Task 9</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标检测基础"><span class="nav-number">7.1.</span> <span class="nav-text">目标检测基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#框的表达"><span class="nav-number">7.1.1.</span> <span class="nav-text">框的表达</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锚框"><span class="nav-number">7.1.2.</span> <span class="nav-text">锚框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交并比"><span class="nav-number">7.1.3.</span> <span class="nav-text">交并比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程-1"><span class="nav-number">7.1.4.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成锚框"><span class="nav-number">7.1.4.1.</span> <span class="nav-text">生成锚框</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标注锚框"><span class="nav-number">7.1.4.2.</span> <span class="nav-text">标注锚框</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出预测边界框"><span class="nav-number">7.1.4.3.</span> <span class="nav-text">输出预测边界框</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多尺度目标检测"><span class="nav-number">7.1.5.</span> <span class="nav-text">多尺度目标检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样式迁移"><span class="nav-number">7.2.</span> <span class="nav-text">样式迁移</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特征抽取"><span class="nav-number">7.2.1.</span> <span class="nav-text">特征抽取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格拉姆矩阵"><span class="nav-number">7.2.2.</span> <span class="nav-text">格拉姆矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总变差降噪"><span class="nav-number">7.2.3.</span> <span class="nav-text">总变差降噪</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像分类实例"><span class="nav-number">7.3.</span> <span class="nav-text">图像分类实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ImageFolder"><span class="nav-number">7.3.1.</span> <span class="nav-text">ImageFolder</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-10"><span class="nav-number">8.</span> <span class="nav-text">Task 10</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN"><span class="nav-number">8.1.</span> <span class="nav-text">GAN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#损失函数"><span class="nav-number">8.1.1.</span> <span class="nav-text">损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#判别器"><span class="nav-number">8.1.1.1.</span> <span class="nav-text">判别器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成器"><span class="nav-number">8.1.1.2.</span> <span class="nav-text">生成器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DCGAN"><span class="nav-number">8.2.</span> <span class="nav-text">DCGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Totensor与tanh"><span class="nav-number">8.2.1.</span> <span class="nav-text">Totensor与tanh</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/22.png"
+      alt="狗仔源">
+  <p class="site-author-name" itemprop="name">狗仔源</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:530738743@qq.com" title="E-Mail &rarr; mailto:530738743@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">狗仔源</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">72k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:05</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '3fd967d31c63d255d193',
+      clientSecret: 'b8ead67458a8526ad97a04eb9a872c28c8ec09ff',
+      repo: 'BelongComments',
+      owner: 'Belong34',
+      admin: ['Belong34'],
+      id: '2649a071c09277dcc60ac17b1694c8e0',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":0,"vOffset":20},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
